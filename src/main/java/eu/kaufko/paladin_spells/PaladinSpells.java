@@ -1,12 +1,9 @@
 package eu.kaufko.paladin_spells;
 
 import com.mojang.logging.LogUtils;
-import eu.kaufko.paladin_spells.registry.PaladinDamageTypeRegistry;
 import eu.kaufko.paladin_spells.registry.PaladinEffectsRegistry;
 import eu.kaufko.paladin_spells.registry.PaladinSoundRegistry;
 import eu.kaufko.paladin_spells.registry.PaladinSpellRegistry;
-import eu.kaufko.paladin_spells.effects.TauntEffect;
-import net.minecraft.world.effect.MobEffect;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.server.ServerStartingEvent;
@@ -16,9 +13,6 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegistryObject;
 import org.slf4j.Logger;
 
 @Mod(PaladinSpells.MODID)
