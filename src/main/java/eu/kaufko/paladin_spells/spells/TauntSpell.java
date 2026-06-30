@@ -1,6 +1,7 @@
 package eu.kaufko.paladin_spells.spells;
 
 import eu.kaufko.paladin_spells.PaladinSpells;
+import eu.kaufko.paladin_spells.registry.PaladinSoundRegistry;
 import io.redspace.ironsspellbooks.api.config.DefaultConfig;
 import io.redspace.ironsspellbooks.api.magic.MagicData;
 import io.redspace.ironsspellbooks.api.registry.SchoolRegistry;
@@ -28,7 +29,7 @@ import java.util.UUID;
 
 @AutoSpellConfig
 public class TauntSpell extends AbstractSpell {
-    private final ResourceLocation spellId = new ResourceLocation(PaladinSpells.MODID, "taunt");
+    private final ResourceLocation spellId = ResourceLocation.fromNamespaceAndPath(PaladinSpells.MODID, "taunt");
 
     @Override
     public List<MutableComponent> getUniqueInfo(int spellLevel, LivingEntity caster) {
@@ -73,12 +74,12 @@ public class TauntSpell extends AbstractSpell {
 
     @Override
     public Optional<SoundEvent> getCastStartSound() {
-        return net.minecraft.sounds.SoundEvents.
+        return Optional.empty();
     }
 
     @Override
     public Optional<SoundEvent> getCastFinishSound() {
-        return Optional.of(SoundEvents.PLAYER_LEVELUP);
+        return Optional.of(PaladinSoundRegistry.TAUNT.get());
     }
 
 

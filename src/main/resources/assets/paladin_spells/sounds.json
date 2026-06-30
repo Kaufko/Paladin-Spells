@@ -1,0 +1,18 @@
+{
+  "bulwark": {
+    "category": "master",
+    "sounds": [
+      {
+        "name": "paladin_spells:bulwark"
+      }
+    ]
+  },
+  "taunt": {
+    "category": "master",
+    "sounds": [
+      {
+        "name": "paladin_spells:taunt"
+      }
+    ]
+  }
+}

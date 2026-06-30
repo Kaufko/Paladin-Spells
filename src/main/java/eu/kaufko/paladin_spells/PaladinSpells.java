@@ -1,6 +1,7 @@
 package eu.kaufko.paladin_spells;
 
 import com.mojang.logging.LogUtils;
+import eu.kaufko.paladin_spells.registry.PaladinSoundRegistry;
 import eu.kaufko.paladin_spells.registry.PaladinSpellRegistry;
 import eu.kaufko.paladin_spells.effects.TauntEffect;
 import net.minecraft.world.effect.MobEffect;
@@ -35,6 +36,7 @@ public class PaladinSpells {
         modEventBus.addListener(this::commonSetup);
 
         PaladinSpellRegistry.register(modEventBus);
+        PaladinSoundRegistry.SOUND_EVENTS.register(modEventBus);
         MOB_EFFECTS.register(modEventBus);
 
         MinecraftForge.EVENT_BUS.register(this);

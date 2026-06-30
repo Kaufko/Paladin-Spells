@@ -1,6 +1,7 @@
 package eu.kaufko.paladin_spells.spells;
 
 import eu.kaufko.paladin_spells.PaladinSpells;
+import eu.kaufko.paladin_spells.registry.PaladinSoundRegistry;
 import io.redspace.ironsspellbooks.api.config.DefaultConfig;
 import io.redspace.ironsspellbooks.api.magic.MagicData;
 import io.redspace.ironsspellbooks.api.registry.SchoolRegistry;
@@ -28,7 +29,7 @@ import java.util.UUID;
 
 @AutoSpellConfig
 public class BulwarkSpell extends AbstractSpell {
-    private final ResourceLocation spellId = new ResourceLocation(PaladinSpells.MODID, "bulwark");
+    private final ResourceLocation spellId = ResourceLocation.fromNamespaceAndPath(PaladinSpells.MODID, "bulwark");
 
     private static final UUID ARMOR_MODIFIER_UUID = UUID.fromString("b1c2d3e4-f5a6-7890-bcde-f12345678901");
 
@@ -80,7 +81,7 @@ public class BulwarkSpell extends AbstractSpell {
 
     @Override
     public Optional<SoundEvent> getCastFinishSound() {
-        return Optional.of(SoundEvents.SHIELD_BLOCK);
+        return Optional.of(PaladinSoundRegistry.BULWARK.get());
     }
 
     @Override
