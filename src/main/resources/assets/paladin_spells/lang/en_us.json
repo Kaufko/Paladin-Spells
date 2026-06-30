@@ -4,7 +4,7 @@
   "spell.paladin_spells.bulwark": "Bulwark",
   "spell.paladin_spells.ram": "Ram",
   "spell.paladin_spells.sworn_protector": "Sworn Protector (WIP)",
-  "ui.paladin_spells.bulwark.multiplier": "%sx Armor Multiplier",
+  "ui.paladin_spells.bulwark.multiplier": "%s Armor Multiplier",
 
   "death.attack.paladin_spells.redirect": "%1$s fell protecting their ally",
   "death.attack.paladin_spells.redirect.player": "%1$s fell protecting %2$s",
