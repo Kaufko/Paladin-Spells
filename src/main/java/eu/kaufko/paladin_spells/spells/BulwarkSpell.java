@@ -38,8 +38,8 @@ public class BulwarkSpell extends AbstractSpell {
         float duration = getDuration(spellLevel);
 
         return List.of(
-                Component.translatable("ui.paladin_spells.bulwark_multiplier", Utils.stringTruncation(multiplier, 1)),
-                Component.translatable("ui.paladin_spells.bulwark_duration", Utils.stringTruncation(duration, 1))
+                Component.translatable("ui.paladin_spells.bulwark.multiplier", Utils.stringTruncation(multiplier, 1)),
+                Component.translatable("ui.irons_spellbooks.duration", Utils.stringTruncation(duration, 1))
         );
     }
 
@@ -85,7 +85,6 @@ public class BulwarkSpell extends AbstractSpell {
 
     @Override
     public void onCast(Level level, int spellLevel, LivingEntity entity, CastSource castSource, MagicData playerMagicData) {
-        // CRITICAL: Only run on server
         if (level.isClientSide) {
             return;
         }
@@ -93,7 +92,6 @@ public class BulwarkSpell extends AbstractSpell {
     }
 
     public void onCast(Level level, int spellLevel, LivingEntity entity, MagicData playerMagicData) {
-        // CRITICAL: Only run on server
         if (level.isClientSide) {
             return;
         }
@@ -114,14 +112,11 @@ public class BulwarkSpell extends AbstractSpell {
             return;
         }
 
-        // Remove existing modifier FIRST
         armorAttribute.removeModifier(ARMOR_MODIFIER_UUID);
 
         // Calculate bonus armor
         double currentArmor = armorAttribute.getValue();
         double bonusArmor = currentArmor * (multiplier - 1);
-
-        PaladinSpells.LOGGER.info("Bulwark - Current Armor: {}, Multiplier: {}, Bonus: {}", currentArmor, multiplier, bonusArmor);
 
         if (bonusArmor > 0) {
             AttributeModifier armorModifier = new AttributeModifier(
@@ -132,7 +127,6 @@ public class BulwarkSpell extends AbstractSpell {
             );
             armorAttribute.addPermanentModifier(armorModifier);
 
-            PaladinSpells.LOGGER.info("Bulwark - Applied +{} armor", (int)bonusArmor);
         }
 
         if (entity instanceof Player player) {
@@ -153,15 +147,11 @@ public class BulwarkSpell extends AbstractSpell {
         // Base: 1.1x at level 1, +0.1x per level
         float baseMultiplier = 1.1f + (spellLevel - 1) * 0.1f;
 
-        // Get Holy Spell Power - FIXED: use getSpellPower correctly
-        float holyPower = getSpellPower(spellLevel, caster);
-        PaladinSpells.LOGGER.info("Holy Power: {}", holyPower);
+        float holyPower = getSpellPower(spellLevel, caster); // i still have no idea how th do i get holy spell power
 
-        // Each point of Holy Power adds 1% to the multiplier
         float holyBonus = 1.0f + (holyPower / 100f);
         float finalMultiplier = baseMultiplier * holyBonus;
 
-        PaladinSpells.LOGGER.info("Multiplier - Base: {}, Holy: {}, Final: {}", baseMultiplier, holyPower, finalMultiplier);
 
         return finalMultiplier;
     }
@@ -181,7 +171,6 @@ public class BulwarkSpell extends AbstractSpell {
             AttributeInstance armorAttribute = player.getAttribute(Attributes.ARMOR);
             if (armorAttribute != null) {
                 armorAttribute.removeModifier(ARMOR_MODIFIER_UUID);
-                PaladinSpells.LOGGER.info("Bulwark - Removed armor modifier on logout for {}", player.getName().getString());
             }
         }
 
@@ -194,7 +183,6 @@ public class BulwarkSpell extends AbstractSpell {
             AttributeInstance armorAttribute = player.getAttribute(Attributes.ARMOR);
             if (armorAttribute != null) {
                 armorAttribute.removeModifier(ARMOR_MODIFIER_UUID);
-                PaladinSpells.LOGGER.info("Bulwark - Cleaned up armor modifier on login for {}", player.getName().getString());
             }
         }
     }

@@ -1,24 +1,7 @@
 {
-  "mod.paladin_spells.name": "Paladin Spells",
-  "mod.paladin_spells.description": "A collection of holy offensive and defensive spells for paladins.",
-
   "spell.paladin_spells.taunt": "Taunt",
-  "spell.paladin_spells.taunt.description": "Doth compel all foes within thy reach to assail thee.",
 
   "spell.paladin_spells.bulwark": "Bulwark",
-  "spell.paladin_spells.bulwark.description": "Calls upon celestial light to reinforce thy armour, shielding thee from harm through the blessing of the heavens.",
+  "ui.paladin_spells.bulwark.multiplier": "%sx Armor Multiplier"
 
-  "ui.paladin_spells.taunt_range": "Range: %s blocks",
-  "ui.paladin_spells.taunt_duration": "Duration: %s seconds",
-  "ui.paladin_spells.taunt_cast": "Taunted %s enemies!",
-
-  "ui.paladin_spells.bulwark_radius": "Radius: %s blocks",
-  "ui.paladin_spells.bulwark_duration": "Duration: %s seconds",
-  "ui.paladin_spells.bulwark_damage_reduction": "Damage reduction: %s%%",
-  "ui.paladin_spells.bulwark_cast": "Bulwark activated!",
-
-  "tooltip.paladin_spells.spell_level": "Spell level: %s",
-  "tooltip.paladin_spells.mana_cost": "Mana cost: %s",
-  "tooltip.paladin_spells.cooldown": "Cooldown: %s seconds",
-  "tooltip.paladin_spells.school": "School: Holy"
 }

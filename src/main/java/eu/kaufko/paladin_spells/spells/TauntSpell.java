@@ -35,15 +35,15 @@ public class TauntSpell extends AbstractSpell {
         float duration = getDuration(spellLevel);
 
         return List.of(
-                Component.translatable("ui.paladin_spells.taunt_range", Utils.stringTruncation(range, 1)),
-                Component.translatable("ui.paladin_spells.taunt_duration", Utils.stringTruncation(duration, 1))
+                Component.translatable("ui.irons_spellbooks.radius", Utils.stringTruncation(range, 1)),
+                Component.translatable("ui.irons_spellbooks.duration", Utils.stringTruncation(duration, 1))
         );
     }
 
     public TauntSpell() {
         this.manaCostPerLevel = 10;
         this.baseSpellPower = 10;
-        this.spellPowerPerLevel = 10;
+        this.spellPowerPerLevel = 5;
         this.castTime = 0;
         this.baseManaCost = 30;
     }
@@ -97,7 +97,6 @@ public class TauntSpell extends AbstractSpell {
         float range = getRange(spellLevel, entity);
         float duration = getDuration(spellLevel);
 
-        PaladinSpells.LOGGER.info("Range: {}, Duration: {}", range, duration);
 
         AABB aabb = entity.getBoundingBox().inflate(range);
         List<Mob> nearbyMobs = level.getEntitiesOfClass(Mob.class, aabb,
@@ -106,7 +105,6 @@ public class TauntSpell extends AbstractSpell {
                         mob.distanceTo(entity) <= range &&
                         mob != entity);
 
-        PaladinSpells.LOGGER.info("Found {} mobs to taunt", nearbyMobs.size());
 
         int tauntedCount = 0;
         for (Mob mob : nearbyMobs) {
@@ -147,7 +145,6 @@ public class TauntSpell extends AbstractSpell {
             );
 
             tauntedCount++;
-            PaladinSpells.LOGGER.info("Taunted: {}", mob.getName().getString());
         }
 
         // Chat message
@@ -158,7 +155,6 @@ public class TauntSpell extends AbstractSpell {
             );
         }
 
-        PaladinSpells.LOGGER.info("Total taunted: {}", tauntedCount);
     }
 
     @Override
