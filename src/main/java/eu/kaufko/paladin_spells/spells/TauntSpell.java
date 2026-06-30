@@ -18,6 +18,7 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
@@ -105,34 +106,36 @@ public class TauntSpell extends AbstractSpell {
 
         int tauntedCount = 0;
         for (Mob mob : nearbyMobs) {
-            mob.setTarget(entity);
-            mob.setLastHurtByMob(entity);
+            if(mob instanceof Monster) {
+                mob.setTarget(entity);
+                mob.setLastHurtByMob(entity);
 
-            if (entity instanceof Player player) {
-                mob.setLastHurtByPlayer(player);
+                if (entity instanceof Player player) {
+                    mob.setLastHurtByPlayer(player);
+                }
+                MobEffectInstance tauntEffect = new MobEffectInstance(
+                        PaladinEffectsRegistry.TAUNT_EFFECT.get(),
+                        (int) (duration * 20), // Duration in ticks
+                        0,
+                        false,
+                        false
+                );
+                mob.addEffect(tauntEffect);
+
+                mob.getPersistentData().putUUID("taunt_target_uuid", entity.getUUID());
+
+                if (mob.getAttribute(Attributes.FOLLOW_RANGE) != null) {
+                    mob.getAttribute(Attributes.FOLLOW_RANGE).setBaseValue(range * 2);
+                }
+
+                level.addParticle(
+                        ParticleTypes.ANGRY_VILLAGER,
+                        mob.getX(), mob.getY() + 1, mob.getZ(),
+                        0, 0.1, 0
+                );
+
+                tauntedCount++;
             }
-            MobEffectInstance tauntEffect = new MobEffectInstance(
-                    PaladinEffectsRegistry.TAUNT_EFFECT.get(),
-                    (int)(duration * 20), // Duration in ticks
-                    0,
-                    false,
-                    true
-            );
-            mob.addEffect(tauntEffect);
-
-            mob.getPersistentData().putUUID("taunt_target_uuid", entity.getUUID());
-
-            if (mob.getAttribute(Attributes.FOLLOW_RANGE) != null) {
-                mob.getAttribute(Attributes.FOLLOW_RANGE).setBaseValue(range * 2);
-            }
-
-            level.addParticle(
-                    ParticleTypes.ANGRY_VILLAGER,
-                    mob.getX(), mob.getY() + 1, mob.getZ(),
-                    0, 0.1, 0
-            );
-
-            tauntedCount++;
         }
 
         // Chat message
