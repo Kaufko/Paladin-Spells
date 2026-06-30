@@ -1,5 +1,5 @@
-## [0.32] - 2026-06-30
-### Added
+# [0.32] - 2026-06-30
+## Added
 #### Icons
 - Sworn Protector
 - Taunt (WIP)
@@ -9,9 +9,14 @@
 - Bulwark text to match real values.
 - Bulwark mana cost per level from 15 to 10
 
-## [0.31] - 2026-06-30
+---
 
-### Added
+# [0.31] - 2026-06-30
+
+
+
+
+## Added
 #### Spells
 - **Bulwark** — Increases your armor based on your current armor and spell power.
 - **Taunt** — Taunts all enemies within the spell's radius, forcing them to target you.
