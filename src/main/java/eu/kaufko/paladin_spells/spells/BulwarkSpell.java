@@ -37,7 +37,7 @@ public class BulwarkSpell extends AbstractSpell {
     }
 
     public BulwarkSpell() {
-        this.manaCostPerLevel = 15;
+        this.manaCostPerLevel = 10;
         this.baseSpellPower = 1;
         this.spellPowerPerLevel = 5;
         this.castTime = 0;
