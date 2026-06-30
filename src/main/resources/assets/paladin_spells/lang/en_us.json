@@ -1,7 +1,16 @@
 {
   "spell.paladin_spells.taunt": "Taunt",
-
+  "spell.paladin_spells.bedrock_skin": "Bedrock Skin (WIP)",
   "spell.paladin_spells.bulwark": "Bulwark",
-  "ui.paladin_spells.bulwark.multiplier": "%sx Armor Multiplier"
+  "spell.paladin_spells.ram": "Ram",
+  "spell.paladin_spells.sworn_protector": "Sworn Protector (WIP)",
+  "ui.paladin_spells.bulwark.multiplier": "%sx Armor Multiplier",
 
+  "death.attack.paladin_spells.redirect": "%1$s fell protecting their ally",
+  "death.attack.paladin_spells.redirect.player": "%1$s fell protecting %2$s",
+
+  "effect.paladin_spells.bulwark": "Bulwark",
+  "effect.paladin_spells.taunt": "Taunt",
+  "effect.paladin_spells.bedrock_skin": "Bedrock Skin",
+  "effect.paladin_spells.sworn_protector": "Sworn Protector"
 }
