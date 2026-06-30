@@ -1,6 +1,8 @@
 package eu.kaufko.paladin_spells;
 
 import com.mojang.logging.LogUtils;
+import eu.kaufko.paladin_spells.registry.PaladinDamageTypeRegistry;
+import eu.kaufko.paladin_spells.registry.PaladinEffectsRegistry;
 import eu.kaufko.paladin_spells.registry.PaladinSoundRegistry;
 import eu.kaufko.paladin_spells.registry.PaladinSpellRegistry;
 import eu.kaufko.paladin_spells.effects.TauntEffect;
@@ -25,11 +27,6 @@ public class PaladinSpells {
     public static final Logger LOGGER = LogUtils.getLogger();
 
     // Register the taunt effect
-    public static final DeferredRegister<MobEffect> MOB_EFFECTS =
-            DeferredRegister.create(ForgeRegistries.MOB_EFFECTS, MODID);
-
-    public static final RegistryObject<MobEffect> TAUNT_EFFECT =
-            MOB_EFFECTS.register("taunt", TauntEffect::new);
 
     public PaladinSpells() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
@@ -37,7 +34,8 @@ public class PaladinSpells {
 
         PaladinSpellRegistry.register(modEventBus);
         PaladinSoundRegistry.SOUND_EVENTS.register(modEventBus);
-        MOB_EFFECTS.register(modEventBus);
+        PaladinEffectsRegistry.MOB_EFFECTS.register(modEventBus);
+
 
         MinecraftForge.EVENT_BUS.register(this);
     }
