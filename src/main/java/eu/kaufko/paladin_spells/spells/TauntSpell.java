@@ -13,7 +13,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
@@ -25,7 +24,6 @@ import net.minecraft.world.phys.AABB;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @AutoSpellConfig
 public class TauntSpell extends AbstractSpell {
