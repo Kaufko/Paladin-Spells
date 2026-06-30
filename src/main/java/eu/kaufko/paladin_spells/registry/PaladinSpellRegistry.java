@@ -1,7 +1,9 @@
 package eu.kaufko.paladin_spells.registry;
 
 import eu.kaufko.paladin_spells.PaladinSpells;
+import eu.kaufko.paladin_spells.spells.BedrockSkinSpell;
 import eu.kaufko.paladin_spells.spells.BulwarkSpell;
+import eu.kaufko.paladin_spells.spells.SwornProtectorSpell;
 import eu.kaufko.paladin_spells.spells.TauntSpell;
 import io.redspace.ironsspellbooks.api.registry.SpellRegistry;
 import io.redspace.ironsspellbooks.api.spells.AbstractSpell;
@@ -17,6 +19,10 @@ public class PaladinSpellRegistry {
             SPELLS.register("taunt", TauntSpell::new);
     public static final RegistryObject<AbstractSpell> BULWARK_SPELL =
             SPELLS.register("bulwark", BulwarkSpell::new);
+    public static final RegistryObject<AbstractSpell> SWORN_PROTECTOR_SPELL =
+            SPELLS.register("sworn_protector", SwornProtectorSpell::new);
+    public static final RegistryObject<AbstractSpell> BEDROCK_SKIN_SPELL =
+            SPELLS.register("bedrock_skin", BedrockSkinSpell::new);
 
     public static void register(IEventBus eventBus) {
         SPELLS.register(eventBus);
