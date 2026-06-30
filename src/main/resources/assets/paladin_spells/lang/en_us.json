@@ -12,5 +12,11 @@
   "effect.paladin_spells.bulwark": "Bulwark",
   "effect.paladin_spells.taunt": "Taunt",
   "effect.paladin_spells.bedrock_skin": "Bedrock Skin",
-  "effect.paladin_spells.sworn_protector": "Sworn Protector"
+  "effect.paladin_spells.sworn_protector": "Sworn Protector",
+
+  "spell.paladin_spells.bulwark.guide": "WIP",
+  "spell.paladin_spells.sworn_protector.guide": "WIP",
+  "spell.paladin_spells.taunt.guide": "WIP",
+  "spell.paladin_spells.bedrock_skin.guide": "WIP"
+
 }
