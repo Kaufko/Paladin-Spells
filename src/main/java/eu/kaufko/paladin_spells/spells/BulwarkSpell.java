@@ -81,10 +81,10 @@ public class BulwarkSpell extends AbstractSpell {
         if (level.isClientSide) {
             return;
         }
-        doBulwark(level, spellLevel, entity);
+        doBulwark(spellLevel, entity);
     }
 
-    private void doBulwark(Level level, int spellLevel, LivingEntity entity) {
+    private void doBulwark(int spellLevel, LivingEntity entity) {
         if (entity == null) {
             return;
         }
