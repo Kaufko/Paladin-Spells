@@ -1,6 +1,7 @@
 package eu.kaufko.paladin_spells.spells;
 
 import eu.kaufko.paladin_spells.PaladinSpells;
+import eu.kaufko.paladin_spells.registry.PaladinEffectsRegistry;
 import eu.kaufko.paladin_spells.registry.PaladinSoundRegistry;
 import io.redspace.ironsspellbooks.api.config.DefaultConfig;
 import io.redspace.ironsspellbooks.api.magic.MagicData;
@@ -82,10 +83,7 @@ public class TauntSpell extends AbstractSpell {
 
 
     public void onCast(Level level, int spellLevel, LivingEntity entity, CastSource castSource, MagicData playerMagicData) {
-        doTaunt(level, spellLevel, entity, playerMagicData);
-    }
 
-    public void onCast(Level level, int spellLevel, LivingEntity entity, MagicData playerMagicData) {
         doTaunt(level, spellLevel, entity, playerMagicData);
     }
 
@@ -115,7 +113,7 @@ public class TauntSpell extends AbstractSpell {
                 mob.setLastHurtByPlayer(player);
             }
             MobEffectInstance tauntEffect = new MobEffectInstance(
-                    PaladinSpells.TAUNT_EFFECT.get(),
+                    PaladinEffectsRegistry.TAUNT_EFFECT.get(),
                     (int)(duration * 20), // Duration in ticks
                     0,
                     false,
@@ -128,15 +126,6 @@ public class TauntSpell extends AbstractSpell {
             if (mob.getAttribute(Attributes.FOLLOW_RANGE) != null) {
                 mob.getAttribute(Attributes.FOLLOW_RANGE).setBaseValue(range * 2);
             }
-
-            MobEffectInstance glowing = new MobEffectInstance(
-                    MobEffects.GLOWING,
-                    (int)(duration * 20),
-                    0,
-                    false,
-                    true
-            );
-            mob.addEffect(glowing);
 
             level.addParticle(
                     ParticleTypes.ANGRY_VILLAGER,
@@ -159,7 +148,7 @@ public class TauntSpell extends AbstractSpell {
 
     @Override
     public AnimationHolder getCastStartAnimation() {
-        return SpellAnimations.SELF_CAST_ANIMATION;
+        return SpellAnimations.TOUCH_GROUND_ANIMATION;
     }
 
     private float getRange(int spellLevel, LivingEntity caster) {
