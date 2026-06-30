@@ -13,7 +13,7 @@ public class TauntEffect extends MobEffect {
     private static final String TAUNT_TARGET_UUID = "taunt_target_uuid";
 
     public TauntEffect() {
-        super(MobEffectCategory.HARMFUL, 0xFFD700);
+        super(MobEffectCategory.HARMFUL, 0xFF0000);
     }
 
     @Override
