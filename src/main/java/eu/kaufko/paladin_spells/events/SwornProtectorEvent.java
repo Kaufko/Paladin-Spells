@@ -57,6 +57,7 @@ public class SwornProtectorEvent {
                 .registryOrThrow(Registries.DAMAGE_TYPE)
                 .getHolderOrThrow(PaladinDamageTypeRegistry.REDIRECT);
 
+        PaladinSpells.LOGGER.info("{} protected {} for {} damage", protector.getName().getString(), victim.getName().getString(), redirected);
         protector.hurt(new DamageSource(holder, victim), redirected);
     }
 }
