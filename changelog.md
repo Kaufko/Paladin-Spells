@@ -1,10 +1,11 @@
-# [0.33] - 2026-07-01
+# [0.33] - 2026-07-02
+
+## Fixed
+- Fixed **taunt** not working for enemies that don't extend Monster (for ex. Cataclysm)
+- Fixed **Sworn Protector** not triggering
+- Fixed bulwark text yet again.
 ## Added
 - Missing entries in lang
-## Changed
-- Styling of changelog
-- Fixed bulwark text yet again.
-- Fixed taunt not working for enemies that don't extend Monster (for ex. Cataclysm)
 
 ---
 
