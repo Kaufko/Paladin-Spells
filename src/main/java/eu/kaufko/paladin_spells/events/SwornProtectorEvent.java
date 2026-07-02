@@ -28,7 +28,7 @@ public class SwornProtectorEvent {
         }
 
         LivingEntity victim = event.getEntity();
-        if (victim instanceof Player) {
+        if (!victim instanceof Player) { //maybe add friended mobs / pets??
             return;
         }
 
