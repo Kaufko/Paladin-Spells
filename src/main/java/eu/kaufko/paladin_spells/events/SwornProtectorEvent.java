@@ -20,15 +20,12 @@ public class SwornProtectorEvent {
         if (event.getEntity().level().isClientSide()) {
             return;
         }
-        if (!(event.getSource().getEntity() instanceof Player attacker)) {
-            return;
-        }
         if (event.getSource().is(PaladinDamageTypeRegistry.REDIRECT)) {
             return;
-        }
 
+        }
         LivingEntity victim = event.getEntity();
-        if (!victim instanceof Player) { //maybe add friended mobs / pets??
+        if (!(victim instanceof Player)) { //maybe add friended mobs / pets??
             return;
         }
 
@@ -45,6 +42,7 @@ public class SwornProtectorEvent {
         }
 
         LivingEntity protector = protectors.get(0);
+        var attacker = event.getSource().getEntity();
         if (protector == attacker) {
             return;
         }
