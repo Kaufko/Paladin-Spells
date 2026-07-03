@@ -2,3 +2,7 @@
 [<img alt="Mod Loader: Forge" src="https://img.shields.io/badge/loader-forge-1976d2?style=flat-square"/>](https://files.minecraftforge.net/)
 [<img alt="Curse Forge" src="https://cf.way2muchnoise.eu/1593269.svg?badge_style=flat"/>](https://www.curseforge.com/minecraft/mc-mods/paladin-spells-irons-spells-addon)
 [<img alt="Modrinth" src="https://img.shields.io/modrinth/dt/paladin-spells-irons-spells-addon"/>]("https://modrinth.com/mod/paladin-spells-irons-spells-addon")
+
+# Paladin Spells
+[Curse Forge Page](https://www.curseforge.com/minecraft/mc-mods/paladin-spells-irons-spells-addon)
+[Modrinth Page]("https://modrinth.com/mod/paladin-spells-irons-spells-addon")
