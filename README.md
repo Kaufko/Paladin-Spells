@@ -4,5 +4,5 @@
 [<img alt="Modrinth" src="https://img.shields.io/modrinth/dt/paladin-spells-irons-spells-addon"/>]("https://modrinth.com/mod/paladin-spells-irons-spells-addon")
 
 # Paladin Spells
-[Curse Forge Page](https://www.curseforge.com/minecraft/mc-mods/paladin-spells-irons-spells-addon)
+[Curse Forge Page](https://www.curseforge.com/minecraft/mc-mods/paladin-spells-irons-spells-addon) |
 [Modrinth Page](https://modrinth.com/mod/paladin-spells-irons-spells-addon)
