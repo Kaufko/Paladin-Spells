@@ -5,4 +5,4 @@
 
 # Paladin Spells
 [Curse Forge Page](https://www.curseforge.com/minecraft/mc-mods/paladin-spells-irons-spells-addon)
-[Modrinth Page]("https://modrinth.com/mod/paladin-spells-irons-spells-addon")
+[Modrinth Page](https://modrinth.com/mod/paladin-spells-irons-spells-addon)
