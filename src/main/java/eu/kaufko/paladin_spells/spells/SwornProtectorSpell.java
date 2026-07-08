@@ -27,18 +27,34 @@ public class SwornProtectorSpell extends AbstractSpell {
     private final ResourceLocation spellId = ResourceLocation.fromNamespaceAndPath(PaladinSpells.MODID, "sworn_protector");
 
     private static final UUID ARMOR_MODIFIER_UUID = UUID.fromString("b1c2d3e4-f5a6-7890-bcde-f12345678901");
-
+    
+    private int baseDuration = 30;
+    
     @Override
     public List<MutableComponent> getUniqueInfo(int spellLevel, LivingEntity caster) {
+        float range = getRange(spellLevel, caster);
         float duration = getDuration(spellLevel);
-
+        float redirectPercentage = getRedirectPercentage(spellLevel, caster);
         return List.of(
+                Component.translatable("ui.paladin_spells.sworn_protector.redirect_percentage", Utils.stringTruncation(redirectPercentage * 100, 1)),
+                Component.translatable("ui.irons_spellbooks.radius", Utils.stringTruncation(range, 1)),
                 Component.translatable("ui.irons_spellbooks.duration", Utils.stringTruncation(duration, 1))
         );
     }
 
-    private float getDuration(int spellLevel) {
-        return (float) spellLevel;
+    private float getRange(int spellLevel, LivingEntity caster) {
+        float spellPower = getSpellPower(spellLevel, caster);
+        return Math.max(10, 10 + spellPower * 2);
+    }
+
+    private float getDuration(int spellLevel, LivingEntity caster) {
+        return 5 + getSpellPower(spellLevel, caster) * 12.78f;
+    }
+
+    public float getRedirectPercentage(int spellLevel, LivingEntity caster) {
+        float normalizedLevel = (spellLevel - 1) / 9.0f;
+        float scaledValue = (float) Math.pow(normalizedLevel, 0.3f / (1 + 0.1 * getSpellPower(spellLevel, caster));
+        return 0.20f + scaledValue * 0.60f;
     }
 
     public SwornProtectorSpell() {
