@@ -1,3 +1,9 @@
+## [0.342] - 2026-07-04
+
+### Changed
+- Removed unnecessary dependency (Patchouli)
+- Fixed lang for sworn protector and bulwark
+- Revamped scaling for bulwark and sworn protector
 ## [0.33] - 2026-07-02
 
 ### Fixed
