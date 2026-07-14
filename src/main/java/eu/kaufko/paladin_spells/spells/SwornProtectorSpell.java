@@ -28,12 +28,10 @@ public class SwornProtectorSpell extends AbstractSpell {
 
     private static final UUID ARMOR_MODIFIER_UUID = UUID.fromString("b1c2d3e4-f5a6-7890-bcde-f12345678901");
     
-    private int baseDuration = 30;
-    
     @Override
     public List<MutableComponent> getUniqueInfo(int spellLevel, LivingEntity caster) {
         float range = getRange(spellLevel, caster);
-        float duration = getDuration(spellLevel);
+        float duration = getDuration(spellLevel, caster);
         float redirectPercentage = getRedirectPercentage(spellLevel, caster);
         return List.of(
                 Component.translatable("ui.paladin_spells.sworn_protector.redirect_percentage", Utils.stringTruncation(redirectPercentage * 100, 1)),
@@ -53,7 +51,7 @@ public class SwornProtectorSpell extends AbstractSpell {
 
     public float getRedirectPercentage(int spellLevel, LivingEntity caster) {
         float normalizedLevel = (spellLevel - 1) / 9.0f;
-        float scaledValue = (float) Math.pow(normalizedLevel, 0.3f / (1 + 0.1 * getSpellPower(spellLevel, caster));
+        float scaledValue = (float) Math.pow(normalizedLevel, 0.3f / (1 + 0.1 * getSpellPower(spellLevel, caster)));
         return 0.20f + scaledValue * 0.60f;
     }
 
@@ -103,7 +101,7 @@ public class SwornProtectorSpell extends AbstractSpell {
             return;
         }
 
-        int durationTicks = (int) (getDuration(spellLevel) * 10 * 20);
+        int durationTicks = (int) (getDuration(spellLevel, entity) * 10 * 20);
         entity.addEffect(new MobEffectInstance(
                 PaladinEffectsRegistry.SWORN_PROTECTOR_EFFECT.get(),
                 durationTicks,
