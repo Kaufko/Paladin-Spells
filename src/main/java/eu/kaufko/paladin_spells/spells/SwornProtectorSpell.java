@@ -17,31 +17,67 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
 
-
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @AutoSpellConfig
 public class SwornProtectorSpell extends AbstractSpell {
-    private static final ResourceLocation spellId = ResourceLocation.fromNamespaceAndPath(PaladinSpells.MODID, "sworn_protector");
 
+    private static final ResourceLocation SPELL_ID =
+            ResourceLocation.fromNamespaceAndPath(
+                    PaladinSpells.MODID,
+                    "sworn_protector"
+            );
+
+    public static final int MAX_LEVEL = 10;
 
     @Override
     public List<MutableComponent> getUniqueInfo(int spellLevel, LivingEntity caster) {
         float range = getRange(spellLevel, caster);
         float duration = getDuration(spellLevel, caster);
-        float redirectPercentage = getRedirectPercentage(spellLevel, /*!!max spell level var!!*/, caster);
+        float redirectPercentage = getRedirectPercentage(spellLevel, MAX_LEVEL, caster);
+
         return List.of(
-                Component.translatable("ui.paladin_spells.sworn_protector.redirect_percentage", Utils.stringTruncation(redirectPercentage * 100, 1)),
-                Component.translatable("ui.irons_spellbooks.radius", Utils.stringTruncation(range, 1)),
-                Component.translatable("ui.irons_spellbooks.duration", Utils.stringTruncation(duration, 1))
+                Component.translatable(
+                        "ui.paladin_spells.sworn_protector.redirect_percentage",
+                        Utils.stringTruncation(redirectPercentage * 100, 1)
+                ),
+                Component.translatable(
+                        "ui.irons_spellbooks.radius",
+                        Utils.stringTruncation(range, 1)
+                ),
+                Component.translatable(
+                        "ui.irons_spellbooks.duration",
+                        Utils.stringTruncation(duration, 1)
+                )
+        );
+    }
+
+    public static float getRangeStatic(int spellLevel, float spellPower) {
+        return 10 + spellPower * 2;
+    }
+
+    public static float getRedirectPercentageStatic(int spellLevel, int maxLevel, float armor, float spellPower) {
+        float normalizedLevel = (spellLevel - 1f) / (maxLevel - 1f);
+
+        float scaledValue = (float) Math.pow(
+                normalizedLevel,
+                0.3f / (1 + 0.1f * spellPower)
+        );
+
+        float armorBonus = 0.20f * armor / (armor + 100.0f);
+
+        return Math.min(
+                1.0f,
+                0.20f + scaledValue * 0.60f + armorBonus
         );
     }
 
     private float getRange(int spellLevel, LivingEntity caster) {
-        float spellPower = getSpellPower(spellLevel, caster);
-        return 10 + spellPower * 2;
+        return getRangeStatic(
+                spellLevel,
+                getSpellPower(spellLevel, caster)
+        );
     }
 
     private float getDuration(int spellLevel, LivingEntity caster) {
@@ -49,34 +85,32 @@ public class SwornProtectorSpell extends AbstractSpell {
     }
 
     public float getRedirectPercentage(int spellLevel, int maxSpellLevel, LivingEntity caster) {
-        float normalizedLevel = (spellLevel - 1) / 9.0f;
-        float scaledValue = (float) Math.pow(normalizedLevel, 0.3f / (1 + 0.1 * getSpellPower(spellLevel, caster)));
-        float armor = caster.getArmorValue();
-        float armorBonus = 0.20f * armor / (armor + 100.0f);
-        return Math.min(
-                1.0f,
-                0.20f + scaledValue * 0.60f + armorBonus
+        return getRedirectPercentageStatic(
+                spellLevel,
+                maxSpellLevel,
+                caster.getArmorValue(),
+                getSpellPower(spellLevel, caster)
         );
     }
 
     public SwornProtectorSpell() {
-        this.manaCostPerLevel = 15;
-        this.baseSpellPower = 1;
-        this.spellPowerPerLevel = 0;
-        this.castTime = 0;
-        this.baseManaCost = 30;
+        manaCostPerLevel = 15;
+        baseSpellPower = 1;
+        spellPowerPerLevel = 0;
+        castTime = 0;
+        baseManaCost = 30;
     }
 
     private final DefaultConfig defaultConfig = new DefaultConfig()
             .setMinRarity(SpellRarity.RARE)
             .setSchoolResource(SchoolRegistry.HOLY_RESOURCE)
-            .setMaxLevel(10)
+            .setMaxLevel(MAX_LEVEL)
             .setCooldownSeconds(25)
             .build();
 
     @Override
     public ResourceLocation getSpellResource() {
-        return spellId;
+        return SPELL_ID;
     }
 
     @Override
@@ -106,11 +140,20 @@ public class SwornProtectorSpell extends AbstractSpell {
         }
 
         int durationTicks = (int) (getDuration(spellLevel, entity) * 20);
-        entity.addEffect(new MobEffectInstance(
-                PaladinEffectsRegistry.SWORN_PROTECTOR_EFFECT.get(),
-                durationTicks,
-                0
-        ));
+        float redirectPercentage =
+        getRedirectPercentage(spellLevel, MAX_LEVEL, entity);
+        
+        entity.getPersistentData().putFloat(
+                "sworn_protector_redirect",
+                redirectPercentage
+        );
+        entity.addEffect(
+                new MobEffectInstance(
+                        PaladinEffectsRegistry.SWORN_PROTECTOR_EFFECT.get(),
+                        durationTicks,
+                        spellLevel - 1
+                )
+        );
     }
 
     @Override
