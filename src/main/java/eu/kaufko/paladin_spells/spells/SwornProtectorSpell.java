@@ -140,13 +140,12 @@ public class SwornProtectorSpell extends AbstractSpell {
         }
 
         int durationTicks = (int) (getDuration(spellLevel, entity) * 20);
-        float redirectPercentage =
-        getRedirectPercentage(spellLevel, MAX_LEVEL, entity);
+        float redirectPercentage = getRedirectPercentage(spellLevel, MAX_LEVEL, entity);
+        float range = getRange(spellLevel, entity);
         
-        entity.getPersistentData().putFloat(
-                "sworn_protector_redirect",
-                redirectPercentage
-        );
+        entity.getPersistentData().putFloat("sworn_protector_redirect", redirectPercentage);
+        entity.getPersistentData().putFloat("sworn_protector_range", range);
+        
         entity.addEffect(
                 new MobEffectInstance(
                         PaladinEffectsRegistry.SWORN_PROTECTOR_EFFECT.get(),
