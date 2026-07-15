@@ -28,7 +28,7 @@ import java.util.Optional;
 
 @AutoSpellConfig
 public class TauntSpell extends AbstractSpell {
-    private final ResourceLocation spellId = ResourceLocation.fromNamespaceAndPath(PaladinSpells.MODID, "taunt");
+    private static final ResourceLocation spellId = ResourceLocation.fromNamespaceAndPath(PaladinSpells.MODID, "taunt");
 
     @Override
     public List<MutableComponent> getUniqueInfo(int spellLevel, LivingEntity caster) {
@@ -87,7 +87,7 @@ public class TauntSpell extends AbstractSpell {
         doTaunt(level, spellLevel, entity, playerMagicData);
     }
 
-    private void doTaunt(Level level, int spellLevel, LivingEntity entity, MagicData playerMagicData) {
+    private void doTaunt(Level level, int spellLevel, LivingEntity entity) {
         if (level.isClientSide) {
             return;
         }
@@ -107,12 +107,6 @@ public class TauntSpell extends AbstractSpell {
         int tauntedCount = 0;
         for (Mob mob : nearbyMobs) {
             if(mob instanceof Enemy) {
-                mob.setTarget(entity);
-                mob.setLastHurtByMob(entity);
-
-                if (entity instanceof Player player) {
-                    mob.setLastHurtByPlayer(player);
-                }
                 MobEffectInstance tauntEffect = new MobEffectInstance(
                         PaladinEffectsRegistry.TAUNT_EFFECT.get(),
                         (int) (duration * 20), // Duration in ticks
@@ -123,10 +117,6 @@ public class TauntSpell extends AbstractSpell {
                 mob.addEffect(tauntEffect);
 
                 mob.getPersistentData().putUUID("taunt_target_uuid", entity.getUUID());
-
-                if (mob.getAttribute(Attributes.FOLLOW_RANGE) != null) {
-                    mob.getAttribute(Attributes.FOLLOW_RANGE).setBaseValue(range * 2);
-                }
 
                 level.addParticle(
                         ParticleTypes.ANGRY_VILLAGER,
