@@ -50,4 +50,10 @@ public class TauntEffect extends MobEffect {
     public boolean isDurationEffectTick(int duration, int amplifier) {
         return true;
     }
+
+    @Override
+    public void onEffectRemoved(LivingEntity entity, int amplifier) {
+        super.onEffectRemoved(entity, amplifier);
+        entity.getPersistentData().remove(TAUNT_TARGET_UUID);
+    }
 }
