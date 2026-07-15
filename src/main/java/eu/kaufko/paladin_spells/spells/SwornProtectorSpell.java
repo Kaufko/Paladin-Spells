@@ -24,15 +24,14 @@ import java.util.UUID;
 
 @AutoSpellConfig
 public class SwornProtectorSpell extends AbstractSpell {
-    private final ResourceLocation spellId = ResourceLocation.fromNamespaceAndPath(PaladinSpells.MODID, "sworn_protector");
+    private static final ResourceLocation spellId = ResourceLocation.fromNamespaceAndPath(PaladinSpells.MODID, "sworn_protector");
 
-    private static final UUID ARMOR_MODIFIER_UUID = UUID.fromString("b1c2d3e4-f5a6-7890-bcde-f12345678901");
-    
+
     @Override
     public List<MutableComponent> getUniqueInfo(int spellLevel, LivingEntity caster) {
         float range = getRange(spellLevel, caster);
         float duration = getDuration(spellLevel, caster);
-        float redirectPercentage = getRedirectPercentage(spellLevel, caster);
+        float redirectPercentage = getRedirectPercentage(spellLevel, /*!!max spell level var!!*/, caster);
         return List.of(
                 Component.translatable("ui.paladin_spells.sworn_protector.redirect_percentage", Utils.stringTruncation(redirectPercentage * 100, 1)),
                 Component.translatable("ui.irons_spellbooks.radius", Utils.stringTruncation(range, 1)),
@@ -42,17 +41,22 @@ public class SwornProtectorSpell extends AbstractSpell {
 
     private float getRange(int spellLevel, LivingEntity caster) {
         float spellPower = getSpellPower(spellLevel, caster);
-        return Math.max(10, 10 + spellPower * 2);
+        return 10 + spellPower * 2;
     }
 
     private float getDuration(int spellLevel, LivingEntity caster) {
-        return 5 + getSpellPower(spellLevel, caster) * 12.78f;
+        return 5 + getSpellPower(spellLevel, caster) * 10;
     }
 
-    public float getRedirectPercentage(int spellLevel, LivingEntity caster) {
+    public float getRedirectPercentage(int spellLevel, int maxSpellLevel, LivingEntity caster) {
         float normalizedLevel = (spellLevel - 1) / 9.0f;
         float scaledValue = (float) Math.pow(normalizedLevel, 0.3f / (1 + 0.1 * getSpellPower(spellLevel, caster)));
-        return 0.20f + scaledValue * 0.60f;
+        float armor = caster.getArmorValue();
+        float armorBonus = 0.20f * armor / (armor + 100.0f);
+        return Math.min(
+                1.0f,
+                0.20f + scaledValue * 0.60f + armorBonus
+        );
     }
 
     public SwornProtectorSpell() {
@@ -101,7 +105,7 @@ public class SwornProtectorSpell extends AbstractSpell {
             return;
         }
 
-        int durationTicks = (int) (getDuration(spellLevel, entity) * 10 * 20);
+        int durationTicks = (int) (getDuration(spellLevel, entity) * 20);
         entity.addEffect(new MobEffectInstance(
                 PaladinEffectsRegistry.SWORN_PROTECTOR_EFFECT.get(),
                 durationTicks,
