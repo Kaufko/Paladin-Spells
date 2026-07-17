@@ -20,7 +20,6 @@ import net.minecraft.world.level.Level;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @AutoSpellConfig
 public class BedrockSkinSpell extends AbstractSpell {
@@ -28,12 +27,12 @@ public class BedrockSkinSpell extends AbstractSpell {
 
     @Override
     public List<MutableComponent> getUniqueInfo(int spellLevel, LivingEntity caster) {
-        float duration = getDuration(spellLevel);
+        float duration = getDuration(spellLevel, caster );
         float reduction = getDamageReduction(spellLevel, 10, caster);
 
         return List.of(
         Component.translatable(
-                "ui.paladin_spells.bedrock_skin.reduction",
+                "ui.paladin_spells.bedrock_skin.reduction_percentage",
                 Utils.stringTruncation(reduction * 100, 1)
         ),
         Component.translatable(
@@ -98,7 +97,7 @@ public class BedrockSkinSpell extends AbstractSpell {
     private static final String DAMAGE_REDUCTION_KEY = "bedrock_skin_reduction";
 
     private void doBedrockSkin(Level level, int spellLevel, LivingEntity entity) {
-        int durationTicks = Math.round(getDuration(spellLevel) * 20f);
+        int durationTicks = Math.round(getDuration(spellLevel, entity) * 20f);
     
         float reduction =
                 getDamageReduction(

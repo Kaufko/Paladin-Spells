@@ -7,11 +7,4 @@ public class SwornProtectorEffect extends MobEffect {
     public SwornProtectorEffect() {
         super(MobEffectCategory.BENEFICIAL, 0xFFD700);
     }
-    @Override
-    public void onEffectRemoved(LivingEntity entity, int amplifier) {
-        super.onEffectRemoved(entity, amplifier);
-    
-        entity.getPersistentData().remove("sworn_protector_redirect");
-        entity.getPersistentData().remove("sworn_protector_range");
-    }
 }

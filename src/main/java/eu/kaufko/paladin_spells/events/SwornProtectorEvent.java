@@ -23,19 +23,33 @@ public class SwornProtectorEvent {
 
     @SubscribeEvent
     public static void onLivingHurt(LivingHurtEvent event) {
+        PaladinSpells.LOGGER.info(
+                "in event"
+        );
         if (event.getEntity().level().isClientSide()) {
+            PaladinSpells.LOGGER.info(
+                    "Is in event returned by client"
+            );
             return;
         }
 
         if (event.getSource().is(PaladinDamageTypeRegistry.REDIRECT)) {
+            PaladinSpells.LOGGER.info(
+                    "Returned, dmg is redirect alr"
+            );
             return;
         }
 
         LivingEntity victim = event.getEntity();
-
-        if (!(victim instanceof Player)) {
+        PaladinSpells.LOGGER.info(
+                "victim is {}", victim.getName().getString()
+        );
+        /*if (!(victim instanceof Player)) {
             return;
-        }
+        }*/
+        PaladinSpells.LOGGER.info(
+                "Passed some other checks"
+        );
 
         var protectors = victim.level().getEntitiesOfClass(
                 LivingEntity.class,
@@ -44,9 +58,23 @@ public class SwornProtectorEvent {
                         && entity.hasEffect(PaladinEffectsRegistry.SWORN_PROTECTOR_EFFECT.get())
         );
 
+
+
         if (protectors.isEmpty()) {
             return;
         }
+
+        PaladinSpells.LOGGER.info(
+                "Passed protector exist check"
+        );
+
+        protectors.forEach(p -> PaladinSpells.LOGGER.info(
+                "candidate {} hasRangeKey={} range={} dist={}",
+                p.getName().getString(),
+                p.getPersistentData().contains(RANGE_KEY),
+                p.getPersistentData().getFloat(RANGE_KEY),
+                p.distanceTo(victim)
+        ));
 
         LivingEntity protector = protectors.stream()
                 .filter(entity -> entity.getPersistentData().contains(RANGE_KEY))
@@ -58,11 +86,19 @@ public class SwornProtectorEvent {
             return;
         }
 
+        PaladinSpells.LOGGER.info(
+                "Passed protector exist check 2"
+        );
+
         var attacker = event.getSource().getEntity();
 
         if (protector == attacker) {
             return;
         }
+
+        PaladinSpells.LOGGER.info(
+                "Passed protector exist check 3"
+        );
 
         float redirectPercent = protector.getPersistentData().getFloat(REDIRECT_KEY);
 

@@ -19,5 +19,6 @@
   "spell.paladin_spells.taunt.guide": "WIP",
   "spell.paladin_spells.bedrock_skin.guide": "WIP",
 
-  "ui.paladin_spells.sworn_protector.redirect_percentage": "%s %% Damage Redirect"
+  "ui.paladin_spells.sworn_protector.redirect_percentage": "%s%% Damage Redirect",
+  "ui.paladin_spells.bedrock_skin.reduction_percentage": "%s%% Damage Redirect"
 }

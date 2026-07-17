@@ -77,7 +77,7 @@ public class SwornProtectorSpell extends AbstractSpell {
         return getRangeStatic(
                 spellLevel,
                 getSpellPower(spellLevel, caster)
-        );
+        ) * 3;
     }
 
     private float getDuration(int spellLevel, LivingEntity caster) {

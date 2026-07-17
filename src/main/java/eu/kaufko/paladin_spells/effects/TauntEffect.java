@@ -51,9 +51,5 @@ public class TauntEffect extends MobEffect {
         return true;
     }
 
-    @Override
-    public void onEffectRemoved(LivingEntity entity, int amplifier) {
-        super.onEffectRemoved(entity, amplifier);
-        entity.getPersistentData().remove(TAUNT_TARGET_UUID);
-    }
+
 }

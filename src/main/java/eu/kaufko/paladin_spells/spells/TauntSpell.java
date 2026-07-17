@@ -17,7 +17,6 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
@@ -84,7 +83,7 @@ public class TauntSpell extends AbstractSpell {
 
     public void onCast(Level level, int spellLevel, LivingEntity entity, CastSource castSource, MagicData playerMagicData) {
 
-        doTaunt(level, spellLevel, entity, playerMagicData);
+        doTaunt(level, spellLevel, entity);
     }
 
     private void doTaunt(Level level, int spellLevel, LivingEntity entity) {
