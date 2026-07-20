@@ -1,19 +1,23 @@
 package eu.kaufko.paladin_spells.spells;
 
 import eu.kaufko.paladin_spells.PaladinSpells;
+import eu.kaufko.paladin_spells.capabilities.magic.ImpulseCastData;
 import eu.kaufko.paladin_spells.registry.PaladinSoundRegistry;
 import io.redspace.ironsspellbooks.api.config.DefaultConfig;
 import io.redspace.ironsspellbooks.api.magic.MagicData;
 import io.redspace.ironsspellbooks.api.registry.SchoolRegistry;
 import io.redspace.ironsspellbooks.api.spells.*;
 import io.redspace.ironsspellbooks.api.util.AnimationHolder;
+import io.redspace.ironsspellbooks.api.spells.ICastDataSerializable;
 import io.redspace.ironsspellbooks.api.util.Utils;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
@@ -21,7 +25,6 @@ import net.minecraft.world.phys.Vec3;
 import java.util.List;
 import java.util.Optional;
 
-@AutoSpellConfig
 public class RamSpell extends AbstractSpell {
 
     private final ResourceLocation spellId =
@@ -41,6 +44,11 @@ public class RamSpell extends AbstractSpell {
             .setMaxLevel(10)
             .setCooldownSeconds(10)
             .build();
+
+    @Override
+    public AnimationHolder getCastStartAnimation() {
+        return SpellAnimations.TOUCH_GROUND_ANIMATION;
+    }
 
     @Override
     public ResourceLocation getSpellResource() {
@@ -69,7 +77,7 @@ public class RamSpell extends AbstractSpell {
 
     @Override
     public List<MutableComponent> getUniqueInfo(int spellLevel, LivingEntity caster) {
-        float distance = getRamDistance(spellLevel, caster);
+        float distance = getSpellPower(spellLevel, caster);
         float damage = getRamDamage(spellLevel, caster);
 
         return List.of(
@@ -85,39 +93,37 @@ public class RamSpell extends AbstractSpell {
     }
 
     @Override
-    public void onCast(Level level,
-                       int spellLevel,
-                       LivingEntity entity,
-                       CastSource castSource,
-                       MagicData playerMagicData) {
-
-        if (level.isClientSide || entity == null) {
-            return;
-        }
-
-        doRam(spellLevel, entity);
-    }
-
-    private void doRam(int spellLevel, LivingEntity entity) {
-        float distance = getRamDistance(spellLevel, entity);
+    public void onCast(Level level, int spellLevel, LivingEntity entity, CastSource castSource, MagicData playerMagicData) {
+        entity.hasImpulse = true;
+        float multiplier = (3 + getSpellPower(spellLevel, entity)) / 12f;
         float damage = getRamDamage(spellLevel, entity);
 
-        Vec3 look = entity.getLookAngle().normalize();
+        Vec3 forward = entity.getLookAngle();
 
-        entity.setDeltaMovement(
-                look.x * distance,
-                Math.max(0.2D, look.y * 0.15D),
-                look.z * distance
-        );
+        if (playerMagicData.getAdditionalCastData() instanceof RamDirectionOverrideCastData) {
+            if (Utils.random.nextBoolean())
+                forward = forward.yRot(90);
+            else
+                forward = forward.yRot(-90);
+        }
 
+        //Create Dashing Movement Impulse
+        var vec = forward.multiply(3, 0, 3).normalize().add(0, 0, 0).scale(multiplier);
+        if (entity.onGround()) {
+            entity.setPos(entity.position().add(0, 1.5, 0));
+            vec.add(0, 0.25, 0);
+        }
+        playerMagicData.setAdditionalCastData(new ImpulseCastData((float) vec.x, (float) vec.y, (float) vec.z, true));
+        //entity.setDeltaMovement(entity.getDeltaMovement().add(vec));
+        entity.setDeltaMovement(new Vec3(
+                Mth.lerp(.75f, entity.getDeltaMovement().x, vec.x),
+                Mth.lerp(.75f, entity.getDeltaMovement().y, vec.y),
+                Mth.lerp(.75f, entity.getDeltaMovement().z, vec.z)
+        ));
         entity.hurtMarked = true;
 
         AABB chargeBox = entity.getBoundingBox()
-                .expandTowards(
-                        look.x * distance,
-                        look.y * distance,
-                        look.z * distance
-                )
+                .expandTowards(vec.x, vec.y, vec.z)
                 .inflate(1.5D);
 
         List<LivingEntity> targets = entity.level().getEntitiesOfClass(
@@ -135,26 +141,23 @@ public class RamSpell extends AbstractSpell {
 
             target.knockback(
                     1.5F,
-                    -look.x,
-                    -look.z
-            );
-        }
-
-        if (entity instanceof Player player) {
-            player.displayClientMessage(
-                    Component.literal(
-                            "§6 Ram! §e"
-                                    + String.format("%.1f", damage)
-                                    + " damage"
-                    ),
-                    true
+                    forward.x,
+                    forward.z
             );
         }
     }
 
-    private float getRamDistance(int spellLevel, LivingEntity caster) {
-        float spellPower = getSpellPower(spellLevel, caster);
-        return 2f + spellLevel + (spellPower * 0.1f);
+    public ICastDataSerializable getEmptyCastData() {
+        return new ImpulseCastData();
+    }
+
+    public void onClientCast(Level level, int spellLevel, LivingEntity entity, ICastData castData) {
+        if (castData instanceof ImpulseCastData bdcd) {
+            entity.hasImpulse = bdcd.hasImpulse;
+            entity.setDeltaMovement(entity.getDeltaMovement().add(bdcd.x, bdcd.y, bdcd.z));
+        }
+
+        super.onClientCast(level, spellLevel, entity, castData);
     }
 
     private float getRamDamage(int spellLevel, LivingEntity caster) {
@@ -166,8 +169,9 @@ public class RamSpell extends AbstractSpell {
                 + (spellLevel * 2f);
     }
 
-    @Override
-    public AnimationHolder getCastStartAnimation() {
-        return SpellAnimations.SELF_CAST_ANIMATION;
+    public static class RamDirectionOverrideCastData implements ICastData {
+        @Override
+        public void reset() {
+        }
     }
 }
