@@ -74,11 +74,11 @@ public class RamSpell extends AbstractSpell {
 
         return List.of(
                 Component.translatable(
-                        "ui.paladin_spells.ram.distance",
+                        "ui.irons_spellbooks.distance",
                         Utils.stringTruncation(distance, 1)
                 ),
                 Component.translatable(
-                        "ui.paladin_spells.ram.damage",
+                        "ui.irons_spellbooks.damage",
                         Utils.stringTruncation(damage, 1)
                 )
         );
