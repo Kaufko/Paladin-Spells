@@ -8,7 +8,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 @Mod.EventBusSubscriber
-public class BedrockSkinEvents {
+public class BedrockSkinEvent {
 
     @SubscribeEvent
     public static void onLivingDamage(LivingDamageEvent event) {
