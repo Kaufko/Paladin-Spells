@@ -15,20 +15,19 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 
 import java.util.List;
 import java.util.Optional;
 
-@AutoSpellConfig
+
 public class BulwarkSpell extends AbstractSpell {
     private final ResourceLocation spellId = ResourceLocation.fromNamespaceAndPath(PaladinSpells.MODID, "bulwark"); //mark static?
 
     @Override
     public List<MutableComponent> getUniqueInfo(int spellLevel, LivingEntity caster) {
         float multiplier = getArmorBonusPercent(spellLevel, caster);
-        float duration = getDuration(spellLevel);
+        float duration = getDuration(spellLevel, caster);
 
         return List.of(
                 Component.translatable("ui.paladin_spells.bulwark.multiplier", Utils.stringTruncation(multiplier, 1)),
@@ -61,14 +60,13 @@ public class BulwarkSpell extends AbstractSpell {
         }
 
         float bonusPercent = getArmorBonusPercent(spellLevel, entity);
-        float duration = getDuration(spellLevel);
+        float duration = getDuration(spellLevel, entity);
 
         int amplifier = Math.round(bonusPercent * 10f);
 
         int durationTicks = (int) (duration * 20);
 
         entity.addEffect(new MobEffectInstance(PaladinEffectsRegistry.BULWARK_EFFECT.get(), durationTicks, amplifier));
-        //redo the scalinig it looks horrid and it propably is lmao
     }
 
     private float getArmorBonusPercent(int spellLevel, LivingEntity caster) {
@@ -77,7 +75,7 @@ public class BulwarkSpell extends AbstractSpell {
     }
 
     private float getDuration(int spellLevel, LivingEntity caster) {
-        return 5 + (spellLevel - 1) * 5 + getSpellPower(spellLevel, caster) * 3
+        return 15 + getSpellPower(spellLevel, caster);
     }
 
     @Override
