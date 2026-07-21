@@ -24,9 +24,7 @@ import java.util.List;
 import java.util.Optional;
 
 public class RamSpell extends AbstractSpell {
-
-    private final ResourceLocation spellId =
-            ResourceLocation.fromNamespaceAndPath(PaladinSpells.MODID, "ram");
+    private final ResourceLocation spellId = ResourceLocation.fromNamespaceAndPath(PaladinSpells.MODID, "ram");
 
     public RamSpell() {
         this.manaCostPerLevel = 10;
@@ -44,44 +42,13 @@ public class RamSpell extends AbstractSpell {
             .build();
 
     @Override
-    public AnimationHolder getCastStartAnimation() {
-        return SpellAnimations.TOUCH_GROUND_ANIMATION;
-    }
-
-    @Override
-    public ResourceLocation getSpellResource() {
-        return spellId;
-    }
-
-    @Override
-    public DefaultConfig getDefaultConfig() {
-        return defaultConfig;
-    }
-
-    @Override
-    public CastType getCastType() {
-        return CastType.INSTANT;
-    }
-
-    @Override
-    public Optional<SoundEvent> getCastFinishSound() {
-        return Optional.of(PaladinSoundRegistry.BULWARK.get());
-    }
-
-    @Override
     public List<MutableComponent> getUniqueInfo(int spellLevel, LivingEntity caster) {
         float distance = getSpellPower(spellLevel, caster);
         float damage = getRamDamage(spellLevel, caster);
 
         return List.of(
-                Component.translatable(
-                        "ui.irons_spellbooks.distance",
-                        Utils.stringTruncation(distance, 1)
-                ),
-                Component.translatable(
-                        "ui.irons_spellbooks.damage",
-                        Utils.stringTruncation(damage, 1)
-                )
+                Component.translatable("ui.irons_spellbooks.distance", Utils.stringTruncation(distance, 1)),
+                Component.translatable("ui.irons_spellbooks.damage",Utils.stringTruncation(damage, 1))
         );
     }
 
@@ -119,37 +86,21 @@ public class RamSpell extends AbstractSpell {
                 .expandTowards(vec.x, vec.y, vec.z)
                 .inflate(1.5D);
 
-        List<LivingEntity> targets = entity.level().getEntitiesOfClass(
-                LivingEntity.class,
-                chargeBox,
-                target -> target != entity && target.isAlive()
+        List<LivingEntity> targets = entity.level().getEntitiesOfClass(LivingEntity.class, chargeBox,
+                                                                       target -> target != entity && target.isAlive()
         );
 
         for (LivingEntity target : targets) {
-
-            target.hurt(
-                    entity.damageSources().mobAttack(entity),
-                    damage
-            );
-
-            target.knockback(
-                    1.5F,
-                    forward.x,
-                    forward.z
-            );
+            target.hurt(entity.damageSources().mobAttack(entity), damage);
+            target.knockback(1.5f, forward.x, forward.z);
         }
     }
-
-    public ICastDataSerializable getEmptyCastData() {
-        return new ImpulseCastData();
-    }
-
+    
     public void onClientCast(Level level, int spellLevel, LivingEntity entity, ICastData castData) {
         if (castData instanceof ImpulseCastData bdcd) {
             entity.hasImpulse = bdcd.hasImpulse;
             entity.setDeltaMovement(entity.getDeltaMovement().add(bdcd.x, bdcd.y, bdcd.z));
         }
-
         super.onClientCast(level, spellLevel, entity, castData);
     }
 
@@ -157,14 +108,28 @@ public class RamSpell extends AbstractSpell {
         float armor = caster.getArmorValue();
         float spellPower = getSpellPower(spellLevel, caster);
 
-        return (armor * 1.25f)
-                + spellPower
-                + (spellLevel * 2f);
+        return (armor * 1.25f) + spellPower + (spellLevel * 2f);
     }
+
+    @Override
+    public AnimationHolder getCastStartAnimation() { return SpellAnimations.TOUCH_GROUND_ANIMATION; }
+
+    @Override
+    public ResourceLocation getSpellResource() { return spellId; }
+
+    @Override
+    public DefaultConfig getDefaultConfig() { return defaultConfig; }
+
+    @Override
+    public CastType getCastType() { return CastType.INSTANT; }
+
+    @Override
+    public Optional<SoundEvent> getCastFinishSound() { return Optional.of(PaladinSoundRegistry.BULWARK.get()); }
+
+    public ICastDataSerializable getEmptyCastData() { return new ImpulseCastData(); }
 
     public static class RamDirectionOverrideCastData implements ICastData {
         @Override
-        public void reset() {
-        }
+        public void reset() {}
     }
 }
