@@ -20,7 +20,7 @@ import net.minecraft.world.level.Level;
 import java.util.List;
 import java.util.Optional;
 
-@AutoSpellConfig
+
 public class SwornProtectorSpell extends AbstractSpell {
 
     private static final ResourceLocation SPELL_ID =
@@ -62,7 +62,7 @@ public class SwornProtectorSpell extends AbstractSpell {
 
         float scaledValue = (float) Math.pow(
                 normalizedLevel,
-                0.3f / (1 + 0.1f * spellPower)
+                0.6f / (1 + 0.1f * spellPower)
         );
 
         float armorBonus = 0.20f * armor / (armor + 100.0f);
@@ -95,7 +95,7 @@ public class SwornProtectorSpell extends AbstractSpell {
 
     public SwornProtectorSpell() {
         manaCostPerLevel = 15;
-        baseSpellPower = 1;
+        baseSpellPower = 0;
         spellPowerPerLevel = 0;
         castTime = 0;
         baseManaCost = 30;
@@ -125,11 +125,6 @@ public class SwornProtectorSpell extends AbstractSpell {
 
     @Override
     public Optional<SoundEvent> getCastStartSound() {
-        return Optional.empty();
-    }
-
-    @Override
-    public Optional<SoundEvent> getCastFinishSound() {
         return Optional.of(PaladinSoundRegistry.BULWARK.get());
     }
 
