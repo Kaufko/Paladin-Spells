@@ -1,4 +1,14 @@
-## [0.35] - 2026-07-15
+## [0.4] - 2026-07-
+
+### Added
+- Added Bedrock Skin (wip)
+- Added Ram
+- Added Ram sound effect
+  
+### Changed
+- Centered taunt spell png
+- Changed custom lang to ISS
+- Revamped sworn protector
 
 ## [0.342] - 2026-07-04
 
