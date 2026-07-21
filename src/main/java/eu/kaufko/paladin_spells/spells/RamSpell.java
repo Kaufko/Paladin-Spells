@@ -42,11 +42,10 @@ public class RamSpell extends AbstractSpell {
 
     @Override
     public List<MutableComponent> getUniqueInfo(int spellLevel, LivingEntity caster) {
-        float distance = getSpellPower(spellLevel, caster);
+        float distance = getSpellPower(spellLevel, caster) / 3;
         float damage = getRamDamage(spellLevel, caster);
 
         return List.of(
-                Component.translatable("ui.irons_spellbooks.distance", Utils.stringTruncation(distance, 1)),
                 Component.translatable("ui.irons_spellbooks.damage",Utils.stringTruncation(damage, 1))
         );
     }
@@ -54,7 +53,7 @@ public class RamSpell extends AbstractSpell {
     @Override
     public void onCast(Level level, int spellLevel, LivingEntity entity, CastSource castSource, MagicData playerMagicData) {
         entity.hasImpulse = true;
-        float multiplier = (3 + getSpellPower(spellLevel, entity)) / 12f;
+        float multiplier = getSpellPower(spellLevel, entity) / 3;
         float damage = getRamDamage(spellLevel, entity);
 
         Vec3 forward = entity.getLookAngle();
