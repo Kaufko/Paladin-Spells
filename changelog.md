@@ -1,4 +1,4 @@
-## [0.4] - 2026-07-
+## [0.4] - 2026-07-21
 
 ### Added
 - Added Bedrock Skin (wip)
@@ -7,22 +7,9 @@
 - Particle effects (For now angry villager, until I make my own) to Taunted enemies
 
 ### Changed
-- Centered taunt spell png
-- Changed custom lang to ISS
-- Revamped sworn protector
-
-## [0.4] - 2026-07-
-
-### Added
-- Added Bedrock Skin (wip)
-- Added Ram
-- Added Ram sound effect
-- Particle effects (For now angry villager, until I make my own) to Taunted enemies
-  
-### Changed
-- Centered taunt spell png
-- Changed custom lang to ISS
-- Revamped sworn protector
+- Centered taunt spell icon
+- Changed custom lang to ISS (normalized)
+- Revamped sworn protector scaling
 
 ## [0.342] - 2026-07-04
 
