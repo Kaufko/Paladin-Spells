@@ -4,6 +4,7 @@
 - Added Bedrock Skin (wip)
 - Added Ram
 - Added Ram sound effect
+- Particle effects (For now angry villager, until I make my own) to Taunted enemies
   
 ### Changed
 - Centered taunt spell png
