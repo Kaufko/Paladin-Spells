@@ -2,7 +2,6 @@ package eu.kaufko.paladin_spells.spells;
 
 import eu.kaufko.paladin_spells.PaladinSpells;
 import eu.kaufko.paladin_spells.registry.PaladinEffectsRegistry;
-import eu.kaufko.paladin_spells.registry.PaladinSoundRegistry;
 import io.redspace.ironsspellbooks.api.config.DefaultConfig;
 import io.redspace.ironsspellbooks.api.magic.MagicData;
 import io.redspace.ironsspellbooks.api.registry.SchoolRegistry;
@@ -20,7 +19,6 @@ import net.minecraft.world.level.Level;
 import java.util.List;
 import java.util.Optional;
 
-@AutoSpellConfig //will be depracted soon? replace
 public class BedrockSkinSpell extends AbstractSpell {
     private final ResourceLocation spellId = ResourceLocation.fromNamespaceAndPath(PaladinSpells.MODID, "bedrock_skin"); //mark static?
     private static final String DAMAGE_REDUCTION_KEY = "bedrock_skin_reduction"; //forgot if this has a use check
@@ -79,9 +77,6 @@ public class BedrockSkinSpell extends AbstractSpell {
 
     @Override
     public Optional<SoundEvent> getCastStartSound() { return Optional.empty(); }
-
-    @Override
-    public Optional<SoundEvent> getCastFinishSound() { return //Return empty for now; Optional.of(PaladinSoundRegistry.BULWARK.get()); }
 
     @Override
     public AnimationHolder getCastStartAnimation() { return SpellAnimations.SELF_CAST_ANIMATION; }
