@@ -1,6 +1,7 @@
 package eu.kaufko.paladin_spells.registry;
 
 import eu.kaufko.paladin_spells.PaladinSpells;
+import net.minecraft.client.resources.sounds.Sound;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraftforge.registries.DeferredRegister;
@@ -19,4 +20,8 @@ public class PaladinSoundRegistry {
     public static final RegistryObject<SoundEvent> TAUNT =
             SOUND_EVENTS.register("taunt",
                     () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(PaladinSpells.MODID, "taunt")));
+
+    public static final RegistryObject<SoundEvent> RAM =
+            SOUND_EVENTS.register("ram",
+                    () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(PaladinSpells.MODID, "ram")));
 }
