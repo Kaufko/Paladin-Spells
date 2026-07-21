@@ -17,34 +17,26 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
 
-
 import java.util.List;
 import java.util.Optional;
 
-@AutoSpellConfig
+@AutoSpellConfig //will be depracted soon? replace
 public class BedrockSkinSpell extends AbstractSpell {
-    private final ResourceLocation spellId = ResourceLocation.fromNamespaceAndPath(PaladinSpells.MODID, "bedrock_skin");
+    private final ResourceLocation spellId = ResourceLocation.fromNamespaceAndPath(PaladinSpells.MODID, "bedrock_skin"); //mark static?
+    private static final String DAMAGE_REDUCTION_KEY = "bedrock_skin_reduction"; //forgot if this has a use check
 
     @Override
     public List<MutableComponent> getUniqueInfo(int spellLevel, LivingEntity caster) {
-        float duration = getDuration(spellLevel, caster );
+        float duration = getDuration(spellLevel, caster);
         float reduction = getDamageReduction(spellLevel, 10, caster);
 
         return List.of(
-        Component.translatable(
-                "ui.paladin_spells.bedrock_skin.reduction_percentage",
-                Utils.stringTruncation(reduction * 100, 1)
-        ),
-        Component.translatable(
-                "ui.irons_spellbooks.duration",
-                Utils.stringTruncation(duration, 1)
-        )
-);
+            Component.translatable("ui.paladin_spells.bedrock_skin.reduction_percentage", Utils.stringTruncation(reduction * 100, 1)),
+            Component.translatable("ui.irons_spellbooks.duration", Utils.stringTruncation(duration, 1))
+        );
     }
 
-    private float getDuration(int spellLevel, LivingEntity caster) {
-        return 5 + getSpellPower(spellLevel, caster) * 5;
-    }
+    private float getDuration(int spellLevel, LivingEntity caster) { return 5 + getSpellPower(spellLevel, caster) * 5; }
 
     public BedrockSkinSpell() {
         this.manaCostPerLevel = 15;
@@ -62,81 +54,41 @@ public class BedrockSkinSpell extends AbstractSpell {
             .build();
 
     @Override
-    public ResourceLocation getSpellResource() {
-        return spellId;
-    }
-
-    @Override
-    public DefaultConfig getDefaultConfig() {
-        return defaultConfig;
-    }
-
-    @Override
-    public CastType getCastType() {
-        return CastType.INSTANT;
-    }
-
-    @Override
-    public Optional<SoundEvent> getCastStartSound() {
-        return Optional.empty();
-    }
-
-    @Override
-    public Optional<SoundEvent> getCastFinishSound() {
-        return Optional.of(PaladinSoundRegistry.BULWARK.get());
-    }
-
-    @Override
     public void onCast(Level level, int spellLevel, LivingEntity entity, CastSource castSource, MagicData playerMagicData) {
-        if (level.isClientSide) {
-            return;
-        }
-        doBedrockSkin(level, spellLevel, entity);
-    }
-
-    private static final String DAMAGE_REDUCTION_KEY = "bedrock_skin_reduction";
-
-    private void doBedrockSkin(Level level, int spellLevel, LivingEntity entity) {
+        if (level.isClientSide) { return; }
         int durationTicks = Math.round(getDuration(spellLevel, entity) * 20f);
+        float reduction = getDamageReduction(spellLevel, defaultConfig.maxLevel, entity);
     
-        float reduction =
-                getDamageReduction(
-                        spellLevel,
-                        defaultConfig.maxLevel,
-                        entity
-                );
-    
-        entity.getPersistentData().putFloat(
-                DAMAGE_REDUCTION_KEY,
-                reduction
-        );
-    
-        entity.addEffect(
-                new MobEffectInstance(
-                        PaladinEffectsRegistry.BEDROCK_SKIN_EFFECT.get(),
-                        durationTicks,
-                        spellLevel - 1
-                )
-        );
-    }
-
-
-    @Override
-    public AnimationHolder getCastStartAnimation() {
-            return SpellAnimations.SELF_CAST_ANIMATION;
+        entity.getPersistentData().putFloat(DAMAGE_REDUCTION_KEY, reduction);
+        entity.addEffect(new MobEffectInstance(PaladinEffectsRegistry.BEDROCK_SKIN_EFFECT.get(), durationTicks,spellLevel - 1));
     }
     
     public float getDamageReduction(int spellLevel, int maxLevel, LivingEntity caster) {
         float normalizedLevel = (spellLevel - 1f) / (maxLevel - 1f);
         float spellPower = getSpellPower(spellLevel, caster);
-        float scaledValue = (float) Math.pow(normalizedLevel,0.3f / (1 + 0.1f * spellPower));
+        float scaledValue = (float) Math.pow(normalizedLevel, 0.3f / (1 + 0.1f * spellPower));
     
         float armor = caster.getArmorValue();
-        float armorBonus = 0.20f * armor / (armor + 100.0f);
+        float armorBonus = 0.20f * armor / (armor + 100f);
     
-        return Math.min(
-                0.95f,
-                0.10f + scaledValue * 0.5f + armorBonus
-        );
+        return Math.min(0.95f, 0.1f + scaledValue * 0.5f + armorBonus);
     }
+
+    @Override
+    public CastType getCastType() { return CastType.INSTANT; }
+
+    @Override
+    public Optional<SoundEvent> getCastStartSound() { return Optional.empty(); }
+
+    @Override
+    public Optional<SoundEvent> getCastFinishSound() { return //Return empty for now; Optional.of(PaladinSoundRegistry.BULWARK.get()); }
+
+    @Override
+    public AnimationHolder getCastStartAnimation() { return SpellAnimations.SELF_CAST_ANIMATION; }
+
+    @Override
+    public ResourceLocation getSpellResource() { return spellId; }
+
+    @Override
+    public DefaultConfig getDefaultConfig() { return defaultConfig; }
 }
