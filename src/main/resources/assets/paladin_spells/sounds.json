@@ -14,5 +14,13 @@
         "name": "paladin_spells:taunt"
       }
     ]
+  },
+  "ram": {
+    "category": "master",
+    "sounds": [
+      {
+        "name": "paladin_spells:ram"
+      }
+    ]
   }
 }
