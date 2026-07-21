@@ -17,18 +17,16 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.monster.Enemy;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 
 import java.util.List;
 import java.util.Optional;
 
-@AutoSpellConfig
+
 public class TauntSpell extends AbstractSpell {
-    private final ResourceLocation spellId = ResourceLocation.fromNamespaceAndPath(PaladinSpells.MODID, "taunt");
+    private static final ResourceLocation spellId = ResourceLocation.fromNamespaceAndPath(PaladinSpells.MODID, "taunt");
 
     @Override
     public List<MutableComponent> getUniqueInfo(int spellLevel, LivingEntity caster) {
@@ -72,11 +70,6 @@ public class TauntSpell extends AbstractSpell {
     }
 
     @Override
-    public Optional<SoundEvent> getCastStartSound() {
-        return Optional.empty();
-    }
-
-    @Override
     public Optional<SoundEvent> getCastFinishSound() {
         return Optional.of(PaladinSoundRegistry.TAUNT.get());
     }
@@ -84,10 +77,10 @@ public class TauntSpell extends AbstractSpell {
 
     public void onCast(Level level, int spellLevel, LivingEntity entity, CastSource castSource, MagicData playerMagicData) {
 
-        doTaunt(level, spellLevel, entity, playerMagicData);
+        doTaunt(level, spellLevel, entity);
     }
 
-    private void doTaunt(Level level, int spellLevel, LivingEntity entity, MagicData playerMagicData) {
+    private void doTaunt(Level level, int spellLevel, LivingEntity entity) {
         if (level.isClientSide) {
             return;
         }
@@ -107,12 +100,6 @@ public class TauntSpell extends AbstractSpell {
         int tauntedCount = 0;
         for (Mob mob : nearbyMobs) {
             if(mob instanceof Enemy) {
-                mob.setTarget(entity);
-                mob.setLastHurtByMob(entity);
-
-                if (entity instanceof Player player) {
-                    mob.setLastHurtByPlayer(player);
-                }
                 MobEffectInstance tauntEffect = new MobEffectInstance(
                         PaladinEffectsRegistry.TAUNT_EFFECT.get(),
                         (int) (duration * 20), // Duration in ticks
@@ -124,10 +111,6 @@ public class TauntSpell extends AbstractSpell {
 
                 mob.getPersistentData().putUUID("taunt_target_uuid", entity.getUUID());
 
-                if (mob.getAttribute(Attributes.FOLLOW_RANGE) != null) {
-                    mob.getAttribute(Attributes.FOLLOW_RANGE).setBaseValue(range * 2);
-                }
-
                 level.addParticle(
                         ParticleTypes.ANGRY_VILLAGER,
                         mob.getX(), mob.getY() + 1, mob.getZ(),
@@ -137,15 +120,6 @@ public class TauntSpell extends AbstractSpell {
                 tauntedCount++;
             }
         }
-
-        // Chat message
-        if (entity instanceof Player player) {
-            player.displayClientMessage(
-                    Component.literal("§6⚔ Taunted §e" + tauntedCount + " §6enemies!"),
-                    true
-            );
-        }
-
     }
 
     @Override

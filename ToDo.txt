@@ -1,1 +1,4 @@
 Check if caelus and patchouli are actually needed
+]
+Fix sworn protector not working with team friendly fire off (proapably other mods aswell)
+custom animations

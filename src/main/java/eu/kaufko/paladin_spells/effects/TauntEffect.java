@@ -1,5 +1,6 @@
 package eu.kaufko.paladin_spells.effects;
 
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
@@ -37,6 +38,18 @@ public class TauntEffect extends MobEffect {
             mob.getPersistentData().remove(TAUNT_TARGET_UUID);
             return;
         }
+        if (entity.getRandom().nextFloat() < 0.2F) {
+            serverLevel.sendParticles(
+                    ParticleTypes.ANGRY_VILLAGER,
+                    entity.getX() + (entity.getRandom().nextDouble() - 0.5),
+                    entity.getY() + entity.getRandom().nextDouble(),
+                    entity.getZ() + (entity.getRandom().nextDouble() - 0.5),
+                    1,
+                    0, 0.15, 0,
+                    0.0
+            );
+        }
+
 
         mob.setTarget(targetLiving);
         mob.setAggressive(true);
@@ -50,4 +63,6 @@ public class TauntEffect extends MobEffect {
     public boolean isDurationEffectTick(int duration, int amplifier) {
         return true;
     }
+
+
 }

@@ -1,10 +1,7 @@
 package eu.kaufko.paladin_spells.registry;
 
 import eu.kaufko.paladin_spells.PaladinSpells;
-import eu.kaufko.paladin_spells.spells.BedrockSkinSpell;
-import eu.kaufko.paladin_spells.spells.BulwarkSpell;
-import eu.kaufko.paladin_spells.spells.SwornProtectorSpell;
-import eu.kaufko.paladin_spells.spells.TauntSpell;
+import eu.kaufko.paladin_spells.spells.*;
 import io.redspace.ironsspellbooks.api.registry.SpellRegistry;
 import io.redspace.ironsspellbooks.api.spells.AbstractSpell;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -23,6 +20,8 @@ public class PaladinSpellRegistry {
             SPELLS.register("sworn_protector", SwornProtectorSpell::new);
     public static final RegistryObject<AbstractSpell> BEDROCK_SKIN_SPELL =
             SPELLS.register("bedrock_skin", BedrockSkinSpell::new);
+    public static final RegistryObject<AbstractSpell> RAM_SPELL =
+            SPELLS.register("ram", RamSpell::new);
 
     public static void register(IEventBus eventBus) {
         SPELLS.register(eventBus);
