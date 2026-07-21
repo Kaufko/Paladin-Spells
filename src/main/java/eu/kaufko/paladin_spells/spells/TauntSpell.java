@@ -18,14 +18,13 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.monster.Enemy;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 
 import java.util.List;
 import java.util.Optional;
 
-@AutoSpellConfig
+
 public class TauntSpell extends AbstractSpell {
     private static final ResourceLocation spellId = ResourceLocation.fromNamespaceAndPath(PaladinSpells.MODID, "taunt");
 
@@ -68,11 +67,6 @@ public class TauntSpell extends AbstractSpell {
     @Override
     public CastType getCastType() {
         return CastType.INSTANT;
-    }
-
-    @Override
-    public Optional<SoundEvent> getCastStartSound() {
-        return Optional.empty();
     }
 
     @Override
@@ -126,15 +120,6 @@ public class TauntSpell extends AbstractSpell {
                 tauntedCount++;
             }
         }
-
-        // Chat message
-        if (entity instanceof Player player) {
-            player.displayClientMessage(
-                    Component.literal("§6⚔ Taunted §e" + tauntedCount + " §6enemies!"),
-                    true
-            );
-        }
-
     }
 
     @Override
