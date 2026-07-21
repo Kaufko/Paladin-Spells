@@ -7,7 +7,6 @@ import io.redspace.ironsspellbooks.api.config.DefaultConfig;
 import io.redspace.ironsspellbooks.api.magic.MagicData;
 import io.redspace.ironsspellbooks.api.registry.SchoolRegistry;
 import io.redspace.ironsspellbooks.api.spells.*;
-import io.redspace.ironsspellbooks.api.util.AnimationHolder;
 import io.redspace.ironsspellbooks.api.spells.ICastDataSerializable;
 import io.redspace.ironsspellbooks.api.util.Utils;
 import net.minecraft.network.chat.Component;
@@ -27,11 +26,11 @@ public class RamSpell extends AbstractSpell {
     private final ResourceLocation spellId = ResourceLocation.fromNamespaceAndPath(PaladinSpells.MODID, "ram");
 
     public RamSpell() {
-        this.manaCostPerLevel = 10;
+        this.manaCostPerLevel = 5;
         this.baseSpellPower = 4;
         this.spellPowerPerLevel = 1;
         this.castTime = 0;
-        this.baseManaCost = 25;
+        this.baseManaCost = 15;
     }
 
     private final DefaultConfig defaultConfig = new DefaultConfig()
@@ -112,9 +111,6 @@ public class RamSpell extends AbstractSpell {
     }
 
     @Override
-    public AnimationHolder getCastStartAnimation() { return SpellAnimations.TOUCH_GROUND_ANIMATION; }
-
-    @Override
     public ResourceLocation getSpellResource() { return spellId; }
 
     @Override
@@ -124,7 +120,9 @@ public class RamSpell extends AbstractSpell {
     public CastType getCastType() { return CastType.INSTANT; }
 
     @Override
-    public Optional<SoundEvent> getCastFinishSound() { return Optional.of(PaladinSoundRegistry.BULWARK.get()); }
+    public Optional<SoundEvent> getCastFinishSound() {
+        return Optional.of(PaladinSoundRegistry.RAM.get());
+    }
 
     public ICastDataSerializable getEmptyCastData() { return new ImpulseCastData(); }
 
