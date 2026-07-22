@@ -85,7 +85,7 @@ public class RamSpell extends AbstractSpell {
                 .inflate(1.5D);
 
         List<LivingEntity> targets = entity.level().getEntitiesOfClass(LivingEntity.class, chargeBox,
-                                                                       target -> target != entity && target.isAlive()
+                target -> target != entity && target.isAlive()
         );
 
         for (LivingEntity target : targets) {
@@ -93,7 +93,7 @@ public class RamSpell extends AbstractSpell {
             target.knockback(1.5f, forward.x, forward.z);
         }
     }
-    
+
     public void onClientCast(Level level, int spellLevel, LivingEntity entity, ICastData castData) {
         if (castData instanceof ImpulseCastData bdcd) {
             entity.hasImpulse = bdcd.hasImpulse;
