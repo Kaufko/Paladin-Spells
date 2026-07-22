@@ -76,18 +76,11 @@ public class TauntSpell extends AbstractSpell {
 
 
     public void onCast(Level level, int spellLevel, LivingEntity entity, CastSource castSource, MagicData playerMagicData) {
-
-        doTaunt(level, spellLevel, entity);
-    }
-
-    private void doTaunt(Level level, int spellLevel, LivingEntity entity) {
         if (level.isClientSide) {
             return;
         }
-
         float range = getRange(spellLevel, entity);
         float duration = getDuration(spellLevel);
-
 
         AABB aabb = entity.getBoundingBox().inflate(range);
         List<Mob> nearbyMobs = level.getEntitiesOfClass(Mob.class, aabb,
@@ -113,7 +106,7 @@ public class TauntSpell extends AbstractSpell {
 
                 level.addParticle(
                         ParticleTypes.ANGRY_VILLAGER,
-                        mob.getX(), mob.getY() + 1, mob.getZ(),
+                        mob.getX(), mob.getY() + 1.5, mob.getZ(),
                         0, 0.1, 0
                 );
 
@@ -129,10 +122,10 @@ public class TauntSpell extends AbstractSpell {
 
     private float getRange(int spellLevel, LivingEntity caster) {
         float spellPower = getSpellPower(spellLevel, caster);
-        return Math.max(10, 10 + spellPower * 2);
+        return 10 + spellPower * 2;
     }
 
     private float getDuration(int spellLevel) {
-        return 5 + (spellLevel - 1) * 12.78f;
+        return 5 + getSpellPower
     }
 }
