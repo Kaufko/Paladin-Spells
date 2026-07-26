@@ -2,6 +2,7 @@ package eu.kaufko.paladin_spells;
 
 import com.mojang.logging.LogUtils;
 import eu.kaufko.paladin_spells.registry.PaladinEffectsRegistry;
+import eu.kaufko.paladin_spells.registry.PaladinEntityRegistry;
 import eu.kaufko.paladin_spells.registry.PaladinSoundRegistry;
 import eu.kaufko.paladin_spells.registry.PaladinSpellRegistry;
 import net.minecraftforge.api.distmarker.Dist;
@@ -29,6 +30,7 @@ public class PaladinSpells {
         PaladinSpellRegistry.register(modEventBus);
         PaladinSoundRegistry.SOUND_EVENTS.register(modEventBus);
         PaladinEffectsRegistry.MOB_EFFECTS.register(modEventBus);
+        PaladinEntityRegistry.ENTITY_TYPES.register(modEventBus);
 
 
         MinecraftForge.EVENT_BUS.register(this);
