@@ -36,7 +36,7 @@ public class BedrockSkinSpell extends AbstractSpell {
         );
     }
 
-    private float getDuration(int spellLevel, LivingEntity caster) { return 5 + getSpellPower(spellLevel, caster) * 5; }
+    private float getDuration(int spellLevel, LivingEntity caster) { return 5 + getSpellPower(spellLevel, caster); }
 
     public BedrockSkinSpell() {
         this.manaCostPerLevel = 15;
