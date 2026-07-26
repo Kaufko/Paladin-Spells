@@ -31,8 +31,10 @@ public class BedrockSkinEvent {
 
     @SubscribeEvent
     public static void onDismount(EntityMountEvent event) {
-        if (!event.isMounting() && event.getEntityBeingMounted() instanceof BedrockSkinEntity) {
-            event.setCanceled(true);
+        if (!event.isMounting() && event.getEntityBeingMounted() instanceof BedrockSkinEntity anchor) {
+            if (!anchor.isRemoved() && anchor.tickCount <=  0) {
+                event.setCanceled(true);
+            }
         }
     }
 }
