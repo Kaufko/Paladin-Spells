@@ -3,6 +3,7 @@ package eu.kaufko.paladin_spells.entity.spells.BedrockSkin;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
@@ -12,7 +13,6 @@ public class BedrockSkinEntity extends Entity {
 
     public BedrockSkinEntity(EntityType<?> type, Level level) {
         super(type, level);
-        this.noPhysics = true;
         this.setInvulnerable(true);
         this.blocksBuilding = false;
     }
@@ -27,16 +27,30 @@ public class BedrockSkinEntity extends Entity {
 
         if (!level().isClientSide) {
             if (tickCount > duration || !isVehicle()) {
+                ejectPassengers();
                 discard();
             }
         }
+        if (!this.onGround()) {
+            this.setDeltaMovement(this.getDeltaMovement().add(0, -0.08, 0)); // standard gravity accel
+        } else {
+            this.setDeltaMovement(this.getDeltaMovement().multiply(1, 0, 1)); // stop falling once grounded
+        }
+
+        this.move(MoverType.SELF, this.getDeltaMovement());
+    }
+    @Override
+    public Vec3 getDismountLocationForPassenger(LivingEntity passenger) {
+        return this.position();
     }
 
     @Override
     public void push(double x, double y, double z) {}
 
     @Override
-    public void move(MoverType type, Vec3 pos) {}
+    public void move(MoverType type, Vec3 pos) {
+        super.move(type, new Vec3(0, pos.y, 0));
+    }
 
     @Override
     public boolean isPushable() {
@@ -48,14 +62,16 @@ public class BedrockSkinEntity extends Entity {
         return false;
     }
 
-    public Vec3 getPassengerRidingPosition(Entity passenger) {
-        return position();
-    }
-
     @Override
     public void positionRider(Entity passenger, MoveFunction moveFunction) {
         moveFunction.accept(passenger, getX(), getY(), getZ());
     }
+
+    @Override
+    public boolean hasIndirectPassenger(Entity pEntity) {
+        return true;
+    }
+
 
     @Override
     protected void defineSynchedData() {
@@ -76,4 +92,14 @@ public class BedrockSkinEntity extends Entity {
     public boolean shouldRiderSit() {
         return false;
     }
+
+    @Override
+    public boolean dismountsUnderwater() {
+        return false;
+    }
+
+
+
+
+
 }
