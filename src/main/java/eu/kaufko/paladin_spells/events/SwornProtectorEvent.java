@@ -27,29 +27,18 @@ public class SwornProtectorEvent {
                 "in event"
         );
         if (event.getEntity().level().isClientSide()) {
-            PaladinSpells.LOGGER.info(
-                    "Is in event returned by client"
-            );
             return;
         }
 
         if (event.getSource().is(PaladinDamageTypeRegistry.REDIRECT)) {
-            PaladinSpells.LOGGER.info(
-                    "Returned, dmg is redirect alr"
-            );
             return;
         }
 
         LivingEntity victim = event.getEntity();
         PaladinSpells.LOGGER.info(
-                "victim is {}", victim.getName().getString()
-        );
         /*if (!(victim instanceof Player)) {
             return;
         }*/
-        PaladinSpells.LOGGER.info(
-                "Passed some other checks"
-        );
 
         var protectors = victim.level().getEntitiesOfClass(
                 LivingEntity.class,
@@ -64,17 +53,7 @@ public class SwornProtectorEvent {
             return;
         }
 
-        PaladinSpells.LOGGER.info(
-                "Passed protector exist check"
-        );
-
-        protectors.forEach(p -> PaladinSpells.LOGGER.info(
-                "candidate {} hasRangeKey={} range={} dist={}",
-                p.getName().getString(),
-                p.getPersistentData().contains(RANGE_KEY),
-                p.getPersistentData().getFloat(RANGE_KEY),
-                p.distanceTo(victim)
-        ));
+        protectors.forEach(p -> 
 
         LivingEntity protector = protectors.stream()
                 .filter(entity -> entity.getPersistentData().contains(RANGE_KEY))
@@ -86,19 +65,11 @@ public class SwornProtectorEvent {
             return;
         }
 
-        PaladinSpells.LOGGER.info(
-                "Passed protector exist check 2"
-        );
-
         var attacker = event.getSource().getEntity();
 
         if (protector == attacker) {
             return;
         }
-
-        PaladinSpells.LOGGER.info(
-                "Passed protector exist check 3"
-        );
 
         float redirectPercent = protector.getPersistentData().getFloat(REDIRECT_KEY);
 
@@ -113,12 +84,5 @@ public class SwornProtectorEvent {
                 .getHolderOrThrow(PaladinDamageTypeRegistry.REDIRECT);
 
         protector.hurt(new DamageSource(holder, victim), redirected);
-
-        PaladinSpells.LOGGER.info(
-                "{} protected {} for {} damage",
-                protector.getName().getString(),
-                victim.getName().getString(),
-                redirected
-        );
     }
 }
