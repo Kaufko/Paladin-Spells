@@ -1,7 +1,9 @@
 package eu.kaufko.paladin_spells.spells;
 
 import eu.kaufko.paladin_spells.PaladinSpells;
+import eu.kaufko.paladin_spells.entity.spells.BedrockSkin.BedrockSkinEntity;
 import eu.kaufko.paladin_spells.registry.PaladinEffectsRegistry;
+import eu.kaufko.paladin_spells.registry.PaladinEntityRegistry;
 import io.redspace.ironsspellbooks.api.config.DefaultConfig;
 import io.redspace.ironsspellbooks.api.magic.MagicData;
 import io.redspace.ironsspellbooks.api.registry.SchoolRegistry;
@@ -59,6 +61,14 @@ public class BedrockSkinSpell extends AbstractSpell {
     
         entity.getPersistentData().putFloat(DAMAGE_REDUCTION_KEY, reduction);
         entity.addEffect(new MobEffectInstance(PaladinEffectsRegistry.BEDROCK_SKIN_EFFECT.get(), durationTicks,spellLevel - 1));
+
+        BedrockSkinEntity anchor = PaladinEntityRegistry.BEDROCK_SKIN_ENTITY.get().create(level);
+        if (anchor != null) {
+            anchor.setPos(entity.getX(), entity.getY(), entity.getZ());
+            anchor.setDuration(durationTicks);
+            level.addFreshEntity(anchor);
+            entity.startRiding(anchor, true);
+        }
     }
     
     public float getDamageReduction(int spellLevel, int maxLevel, LivingEntity caster) {
