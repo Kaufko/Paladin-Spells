@@ -19,5 +19,6 @@ public class PaladinEntityRegistry {
                             .noSummon()
                             .fireImmune()
                             .build("bedrock_skin_entity")
+
             );
 }
