@@ -1,8 +1,10 @@
 package eu.kaufko.paladin_spells.events;
 
 import eu.kaufko.paladin_spells.effects.BedrockSkinEffect;
+import eu.kaufko.paladin_spells.entity.spells.BedrockSkin.BedrockSkinEntity;
 import eu.kaufko.paladin_spells.registry.PaladinEffectsRegistry;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraftforge.event.entity.EntityMountEvent;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -25,5 +27,12 @@ public class BedrockSkinEvent {
         float reducedDamage = event.getAmount() * (1.0f - reduction);
 
         event.setAmount(reducedDamage);
+    }
+
+    @SubscribeEvent
+    public static void onDismount(EntityMountEvent event) {
+        if (!event.isMounting() && event.getEntityBeingMounted() instanceof BedrockSkinEntity) {
+            event.setCanceled(true);
+        }
     }
 }
