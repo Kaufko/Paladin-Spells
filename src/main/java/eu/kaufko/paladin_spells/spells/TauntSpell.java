@@ -31,7 +31,7 @@ public class TauntSpell extends AbstractSpell {
     @Override
     public List<MutableComponent> getUniqueInfo(int spellLevel, LivingEntity caster) {
         float range = getRange(spellLevel, caster);
-        float duration = getDuration(spellLevel);
+        float duration = getDuration(spellLevel, caster);
 
         return List.of(
                 Component.translatable("ui.irons_spellbooks.radius", Utils.stringTruncation(range, 1)),
@@ -80,7 +80,7 @@ public class TauntSpell extends AbstractSpell {
             return;
         }
         float range = getRange(spellLevel, entity);
-        float duration = getDuration(spellLevel);
+        float duration = getDuration(spellLevel, entity);
 
         AABB aabb = entity.getBoundingBox().inflate(range);
         List<Mob> nearbyMobs = level.getEntitiesOfClass(Mob.class, aabb,
@@ -125,7 +125,7 @@ public class TauntSpell extends AbstractSpell {
         return 10 + spellPower * 2;
     }
 
-    private float getDuration(int spellLevel) {
-        return 5 + getSpellPower
+    private float getDuration(int spellLevel, LivingEntity caster) {
+        return 5 + getSpellPower(spellLevel, caster);
     }
 }
