@@ -67,6 +67,7 @@ public class BedrockSkinSpell extends AbstractSpell {
             anchor.setPos(entity.getX(), entity.getY(), entity.getZ());
             anchor.setDuration(durationTicks);
             level.addFreshEntity(anchor);
+            entity.stopRiding();
             entity.startRiding(anchor, true);
         }
     }
