@@ -35,10 +35,10 @@ public class SwornProtectorEvent {
         }
 
         LivingEntity victim = event.getEntity();
-        PaladinSpells.LOGGER.info(
-        /*if (!(victim instanceof Player)) {
+
+        if (!(victim instanceof Player)) {
             return;
-        }*/
+        }
 
         var protectors = victim.level().getEntitiesOfClass(
                 LivingEntity.class,
@@ -52,8 +52,6 @@ public class SwornProtectorEvent {
         if (protectors.isEmpty()) {
             return;
         }
-
-        protectors.forEach(p -> 
 
         LivingEntity protector = protectors.stream()
                 .filter(entity -> entity.getPersistentData().contains(RANGE_KEY))
