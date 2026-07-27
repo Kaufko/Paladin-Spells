@@ -74,8 +74,8 @@ public class BedrockSkinSpell extends AbstractSpell {
     
     public float getDamageReduction(int spellLevel, int maxLevel, LivingEntity caster) {
         float normalizedLevel = (spellLevel - 1f) / (maxLevel - 1f);
-        float spellPower = getSpellPower(spellLevel, caster);
-        float scaledValue = (float) Math.pow(normalizedLevel, 0.3f / (1 + 0.1f * spellPower));
+        float exponent = 1.2f / (1 + 0.05f * getSpellPower(spellLevel, caster));
+        float scaledValue = (float) Math.pow(normalizedLevel, exponent);
     
         float armor = caster.getArmorValue();
         float armorBonus = 0.20f * armor / (armor + 100f);
