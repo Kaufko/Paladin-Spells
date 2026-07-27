@@ -1,3 +1,14 @@
+## [0.5] - 2026-07-27
+- Fixed Bedrock Skin root
+- Fixed Ram distance
+- Refactored Bedrock Skin damage mitigation scaling
+- Changed Ram distance scaling
+- Removed unnecessary logging
+- Added temporary WIP icons
+- Removed unnecessary slows in Bedrock Skin
+- Shortened duration of Bedrock Skin
+- Removed distance text from ram
+
 ## [0.4] - 2026-07-21
 
 ### Added
