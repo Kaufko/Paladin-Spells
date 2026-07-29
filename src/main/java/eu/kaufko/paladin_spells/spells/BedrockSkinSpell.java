@@ -32,7 +32,7 @@ public class BedrockSkinSpell extends AbstractSpell {
 
         return List.of(
             Component.translatable("ui.paladin_spells.bedrock_skin.reduction_percentage", Utils.stringTruncation(reduction * 100, 1)),
-            Component.translatable("ui.irons_spellbooks.duration", Utils.stringTruncation(duration, 1))
+            Component.translatable("ui.irons_spellbooks.effect_length", Utils.stringTruncation(duration, 1))
         );
     }
 
@@ -85,9 +85,6 @@ public class BedrockSkinSpell extends AbstractSpell {
 
     @Override
     public CastType getCastType() { return CastType.INSTANT; }
-
-    @Override
-    public Optional<SoundEvent> getCastStartSound() { return Optional.empty(); }
 
     @Override
     public AnimationHolder getCastStartAnimation() { return SpellAnimations.SELF_CAST_ANIMATION; }

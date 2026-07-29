@@ -31,7 +31,7 @@ public class BulwarkSpell extends AbstractSpell {
 
         return List.of(
                 Component.translatable("ui.paladin_spells.bulwark.multiplier", Utils.stringTruncation(multiplier, 1)),
-                Component.translatable("ui.irons_spellbooks.duration", Utils.stringTruncation(duration, 1))
+                Component.translatable("ui.irons_spellbooks.effect_length", Utils.stringTruncation(duration, 1))
         );
     }
 

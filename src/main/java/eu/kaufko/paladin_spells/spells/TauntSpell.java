@@ -26,7 +26,7 @@ import java.util.Optional;
 
 
 public class TauntSpell extends AbstractSpell {
-    private static final ResourceLocation spellId = ResourceLocation.fromNamespaceAndPath(PaladinSpells.MODID, "taunt");
+    private final ResourceLocation spellId = ResourceLocation.fromNamespaceAndPath(PaladinSpells.MODID, "taunt");
 
     @Override
     public List<MutableComponent> getUniqueInfo(int spellLevel, LivingEntity caster) {
@@ -35,7 +35,7 @@ public class TauntSpell extends AbstractSpell {
 
         return List.of(
                 Component.translatable("ui.irons_spellbooks.radius", Utils.stringTruncation(range, 1)),
-                Component.translatable("ui.irons_spellbooks.duration", Utils.stringTruncation(duration, 1))
+                Component.translatable("ui.irons_spellbooks.effect_length", Utils.stringTruncation(duration, 1))
         );
     }
 
@@ -46,6 +46,7 @@ public class TauntSpell extends AbstractSpell {
         this.castTime = 0;
         this.baseManaCost = 30;
     }
+
 
     private final DefaultConfig defaultConfig = new DefaultConfig()
             .setMinRarity(SpellRarity.RARE)
