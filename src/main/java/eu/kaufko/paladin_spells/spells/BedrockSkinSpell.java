@@ -1,7 +1,9 @@
 package eu.kaufko.paladin_spells.spells;
 
 import eu.kaufko.paladin_spells.PaladinSpells;
+import eu.kaufko.paladin_spells.entity.spells.BedrockSkin.BedrockSkinEntity;
 import eu.kaufko.paladin_spells.registry.PaladinEffectsRegistry;
+import eu.kaufko.paladin_spells.registry.PaladinEntityRegistry;
 import io.redspace.ironsspellbooks.api.config.DefaultConfig;
 import io.redspace.ironsspellbooks.api.magic.MagicData;
 import io.redspace.ironsspellbooks.api.registry.SchoolRegistry;
@@ -30,11 +32,11 @@ public class BedrockSkinSpell extends AbstractSpell {
 
         return List.of(
             Component.translatable("ui.paladin_spells.bedrock_skin.reduction_percentage", Utils.stringTruncation(reduction * 100, 1)),
-            Component.translatable("ui.irons_spellbooks.duration", Utils.stringTruncation(duration, 1))
+            Component.translatable("ui.irons_spellbooks.effect_length", Utils.stringTruncation(duration, 1))
         );
     }
 
-    private float getDuration(int spellLevel, LivingEntity caster) { return 5 + getSpellPower(spellLevel, caster) * 5; }
+    private float getDuration(int spellLevel, LivingEntity caster) { return 5 + getSpellPower(spellLevel, caster); }
 
     public BedrockSkinSpell() {
         this.manaCostPerLevel = 15;
@@ -59,12 +61,21 @@ public class BedrockSkinSpell extends AbstractSpell {
     
         entity.getPersistentData().putFloat(DAMAGE_REDUCTION_KEY, reduction);
         entity.addEffect(new MobEffectInstance(PaladinEffectsRegistry.BEDROCK_SKIN_EFFECT.get(), durationTicks,spellLevel - 1));
+
+        BedrockSkinEntity anchor = PaladinEntityRegistry.BEDROCK_SKIN_ENTITY.get().create(level);
+        if (anchor != null) {
+            anchor.setPos(entity.getX(), entity.getY(), entity.getZ());
+            anchor.setDuration(durationTicks);
+            level.addFreshEntity(anchor);
+            entity.stopRiding();
+            entity.startRiding(anchor, true);
+        }
     }
     
     public float getDamageReduction(int spellLevel, int maxLevel, LivingEntity caster) {
         float normalizedLevel = (spellLevel - 1f) / (maxLevel - 1f);
-        float spellPower = getSpellPower(spellLevel, caster);
-        float scaledValue = (float) Math.pow(normalizedLevel, 0.3f / (1 + 0.1f * spellPower));
+        float exponent = 1.2f / (1 + 0.05f * getSpellPower(spellLevel, caster));
+        float scaledValue = (float) Math.pow(normalizedLevel, exponent);
     
         float armor = caster.getArmorValue();
         float armorBonus = 0.20f * armor / (armor + 100f);
@@ -74,9 +85,6 @@ public class BedrockSkinSpell extends AbstractSpell {
 
     @Override
     public CastType getCastType() { return CastType.INSTANT; }
-
-    @Override
-    public Optional<SoundEvent> getCastStartSound() { return Optional.empty(); }
 
     @Override
     public AnimationHolder getCastStartAnimation() { return SpellAnimations.SELF_CAST_ANIMATION; }

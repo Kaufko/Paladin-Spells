@@ -26,12 +26,12 @@ public class BulwarkSpell extends AbstractSpell {
 
     @Override
     public List<MutableComponent> getUniqueInfo(int spellLevel, LivingEntity caster) {
-        float multiplier = getArmorBonusPercent(spellLevel, caster);
+        float multiplier = getSpellPower(spellLevel, caster);
         float duration = getDuration(spellLevel, caster);
 
         return List.of(
                 Component.translatable("ui.paladin_spells.bulwark.multiplier", Utils.stringTruncation(multiplier, 1)),
-                Component.translatable("ui.irons_spellbooks.duration", Utils.stringTruncation(duration, 1))
+                Component.translatable("ui.irons_spellbooks.effect_length", Utils.stringTruncation(duration, 1))
         );
     }
 
@@ -55,11 +55,8 @@ public class BulwarkSpell extends AbstractSpell {
         if (level.isClientSide) {
             return;
         }
-        if (entity == null) { //check what this is for and comment it
-            return;
-        }
 
-        float bonusPercent = getArmorBonusPercent(spellLevel, entity);
+        float bonusPercent = getSpellPower(spellLevel, entity);
         float duration = getDuration(spellLevel, entity);
 
         int amplifier = Math.round(bonusPercent * 10f);
@@ -67,11 +64,6 @@ public class BulwarkSpell extends AbstractSpell {
         int durationTicks = (int) (duration * 20);
 
         entity.addEffect(new MobEffectInstance(PaladinEffectsRegistry.BULWARK_EFFECT.get(), durationTicks, amplifier));
-    }
-
-    private float getArmorBonusPercent(int spellLevel, LivingEntity caster) {
-        float spellPower = getSpellPower(spellLevel, caster);
-        return spellPower;
     }
 
     private float getDuration(int spellLevel, LivingEntity caster) {

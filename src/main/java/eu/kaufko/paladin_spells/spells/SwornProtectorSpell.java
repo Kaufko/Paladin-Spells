@@ -47,7 +47,7 @@ public class SwornProtectorSpell extends AbstractSpell {
                         Utils.stringTruncation(range, 1)
                 ),
                 Component.translatable(
-                        "ui.irons_spellbooks.duration",
+                        "ui.irons_spellbooks.effect_length",
                         Utils.stringTruncation(duration, 1)
                 )
         );

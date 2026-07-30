@@ -42,11 +42,10 @@ public class RamSpell extends AbstractSpell {
 
     @Override
     public List<MutableComponent> getUniqueInfo(int spellLevel, LivingEntity caster) {
-        float distance = getSpellPower(spellLevel, caster);
+        float distance = getSpellPower(spellLevel, caster) / 3;
         float damage = getRamDamage(spellLevel, caster);
 
         return List.of(
-                Component.translatable("ui.irons_spellbooks.distance", Utils.stringTruncation(distance, 1)),
                 Component.translatable("ui.irons_spellbooks.damage",Utils.stringTruncation(damage, 1))
         );
     }
@@ -54,7 +53,7 @@ public class RamSpell extends AbstractSpell {
     @Override
     public void onCast(Level level, int spellLevel, LivingEntity entity, CastSource castSource, MagicData playerMagicData) {
         entity.hasImpulse = true;
-        float multiplier = (3 + getSpellPower(spellLevel, entity)) / 12f;
+        float multiplier = getSpellPower(spellLevel, entity) / 3;
         float damage = getRamDamage(spellLevel, entity);
 
         Vec3 forward = entity.getLookAngle();
@@ -86,7 +85,7 @@ public class RamSpell extends AbstractSpell {
                 .inflate(1.5D);
 
         List<LivingEntity> targets = entity.level().getEntitiesOfClass(LivingEntity.class, chargeBox,
-                                                                       target -> target != entity && target.isAlive()
+                target -> target != entity && target.isAlive()
         );
 
         for (LivingEntity target : targets) {
@@ -94,7 +93,7 @@ public class RamSpell extends AbstractSpell {
             target.knockback(1.5f, forward.x, forward.z);
         }
     }
-    
+
     public void onClientCast(Level level, int spellLevel, LivingEntity entity, ICastData castData) {
         if (castData instanceof ImpulseCastData bdcd) {
             entity.hasImpulse = bdcd.hasImpulse;
