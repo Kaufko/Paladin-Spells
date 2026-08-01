@@ -54,16 +54,6 @@ public class BedrockSkinEntity extends Entity {
     }
 
     @Override
-    public boolean isPushable() {
-        return false;
-    }
-
-    @Override
-    public boolean isPickable() {
-        return false;
-    }
-
-    @Override
     public void positionRider(Entity passenger, MoveFunction moveFunction) {
         moveFunction.accept(passenger, getX(), getY(), getZ());
     }
