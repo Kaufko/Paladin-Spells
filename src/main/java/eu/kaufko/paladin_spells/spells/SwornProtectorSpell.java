@@ -53,7 +53,7 @@ public class SwornProtectorSpell extends AbstractSpell {
         );
     }
 
-    public static float getRangeStatic(int spellLevel, float spellPower) {
+    public static float getRangeStatic(float spellPower) {
         return 10 + spellPower * 2;
     }
 
