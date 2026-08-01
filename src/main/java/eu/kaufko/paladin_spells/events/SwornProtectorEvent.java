@@ -9,20 +9,20 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.event.entity.living.LivingHurtEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
 
 import java.util.Comparator;
 
-@Mod.EventBusSubscriber(modid = PaladinSpells.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
+@EventBusSubscriber(modid = PaladinSpells.MODID)
 public class SwornProtectorEvent {
 
     private static final String REDIRECT_KEY = "sworn_protector_redirect";
     private static final String RANGE_KEY = "sworn_protector_range";
 
     @SubscribeEvent
-    public static void onLivingHurt(LivingHurtEvent event) {
+    public static void onLivingHurt(LivingIncomingDamageEvent event) {
         PaladinSpells.LOGGER.info(
                 "in event"
         );
@@ -44,7 +44,7 @@ public class SwornProtectorEvent {
                 LivingEntity.class,
                 victim.getBoundingBox().inflate(64),
                 entity -> entity != victim
-                        && entity.hasEffect(PaladinEffectsRegistry.SWORN_PROTECTOR_EFFECT.get())
+                        && entity.hasEffect(PaladinEffectsRegistry.SWORN_PROTECTOR_EFFECT)
         );
 
 

@@ -60,7 +60,7 @@ public class BedrockSkinSpell extends AbstractSpell {
         float reduction = getDamageReduction(spellLevel, defaultConfig.maxLevel, entity);
     
         entity.getPersistentData().putFloat(DAMAGE_REDUCTION_KEY, reduction);
-        entity.addEffect(new MobEffectInstance(PaladinEffectsRegistry.BEDROCK_SKIN_EFFECT.get(), durationTicks,spellLevel - 1));
+        entity.addEffect(new MobEffectInstance(PaladinEffectsRegistry.BEDROCK_SKIN_EFFECT, durationTicks, spellLevel - 1));
 
         BedrockSkinEntity anchor = PaladinEntityRegistry.BEDROCK_SKIN_ENTITY.get().create(level);
         if (anchor != null) {

@@ -4,29 +4,29 @@ import eu.kaufko.paladin_spells.effects.BedrockSkinEffect;
 import eu.kaufko.paladin_spells.entity.spells.BedrockSkin.BedrockSkinEntity;
 import eu.kaufko.paladin_spells.registry.PaladinEffectsRegistry;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraftforge.event.entity.EntityMountEvent;
-import net.minecraftforge.event.entity.living.LivingDamageEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.event.entity.EntityMountEvent;
+import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
 
-@Mod.EventBusSubscriber
+@EventBusSubscriber
 public class BedrockSkinEvent {
 
     @SubscribeEvent
-    public static void onLivingDamage(LivingDamageEvent event) {
+    public static void onLivingDamage(LivingDamageEvent.Pre event) {
 
         LivingEntity entity = event.getEntity();
 
-        if (!entity.hasEffect(PaladinEffectsRegistry.BEDROCK_SKIN_EFFECT.get())) {
+        if (!entity.hasEffect(PaladinEffectsRegistry.BEDROCK_SKIN_EFFECT)) {
             return;
         }
 
         float reduction = entity.getPersistentData()
                 .getFloat(BedrockSkinEffect.DAMAGE_REDUCTION_KEY);
 
-        float reducedDamage = event.getAmount() * (1.0f - reduction);
+        float reducedDamage = event.getNewDamage() * (1.0f - reduction);
 
-        event.setAmount(reducedDamage);
+        event.setNewDamage(reducedDamage);
     }
 
     @SubscribeEvent

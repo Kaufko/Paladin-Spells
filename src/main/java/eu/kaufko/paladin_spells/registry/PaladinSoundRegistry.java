@@ -1,27 +1,26 @@
 package eu.kaufko.paladin_spells.registry;
 
 import eu.kaufko.paladin_spells.PaladinSpells;
-import net.minecraft.client.resources.sounds.Sound;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.neoforge.registries.DeferredHolder;
+import net.neoforged.neoforge.registries.DeferredRegister;
 
 public class PaladinSoundRegistry {
 
     public static final DeferredRegister<SoundEvent> SOUND_EVENTS =
-            DeferredRegister.create(ForgeRegistries.SOUND_EVENTS, PaladinSpells.MODID);
+            DeferredRegister.create(BuiltInRegistries.SOUND_EVENT, PaladinSpells.MODID);
 
-    public static final RegistryObject<SoundEvent> BULWARK =
+    public static final DeferredHolder<SoundEvent, SoundEvent> BULWARK =
             SOUND_EVENTS.register("bulwark",
                     () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(PaladinSpells.MODID, "bulwark")));
 
-    public static final RegistryObject<SoundEvent> TAUNT =
+    public static final DeferredHolder<SoundEvent, SoundEvent> TAUNT =
             SOUND_EVENTS.register("taunt",
                     () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(PaladinSpells.MODID, "taunt")));
 
-    public static final RegistryObject<SoundEvent> RAM =
+    public static final DeferredHolder<SoundEvent, SoundEvent> RAM =
             SOUND_EVENTS.register("ram",
                     () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(PaladinSpells.MODID, "ram")));
 }

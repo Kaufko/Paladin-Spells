@@ -1,2 +1,4 @@
 Fix sworn protector not working with team friendly fire off (proapably other mods aswell)
 custom animations
+teleport spells gets you out of b edrockskin
+rammed enemies get thrown into you

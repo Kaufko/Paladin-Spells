@@ -95,7 +95,7 @@ public class TauntSpell extends AbstractSpell {
         for (Mob mob : nearbyMobs) {
             if(mob instanceof Enemy) {
                 MobEffectInstance tauntEffect = new MobEffectInstance(
-                        PaladinEffectsRegistry.TAUNT_EFFECT.get(),
+                        PaladinEffectsRegistry.TAUNT_EFFECT,
                         (int) (duration * 20), // Duration in ticks
                         0,
                         false,

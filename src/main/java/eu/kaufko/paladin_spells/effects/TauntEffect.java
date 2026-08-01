@@ -18,25 +18,25 @@ public class TauntEffect extends MobEffect {
     }
 
     @Override
-    public void applyEffectTick(LivingEntity entity, int amplifier) {
+    public boolean applyEffectTick(LivingEntity entity, int amplifier) {
         if (!(entity instanceof Mob mob)) {
-            return;
+            return true;
         }
 
         if (!mob.getPersistentData().contains(TAUNT_TARGET_UUID)) {
-            return;
+            return true;
         }
 
         UUID targetUuid = mob.getPersistentData().getUUID(TAUNT_TARGET_UUID);
         if (!(mob.level() instanceof ServerLevel serverLevel)) {
-            return;
+            return true;
         }
 
         Entity targetEntity = serverLevel.getEntity(targetUuid);
 
         if (!(targetEntity instanceof LivingEntity targetLiving)) {
             mob.getPersistentData().remove(TAUNT_TARGET_UUID);
-            return;
+            return true;
         }
         if (entity.getRandom().nextFloat() < 0.2F) {
             serverLevel.sendParticles(
@@ -50,19 +50,18 @@ public class TauntEffect extends MobEffect {
             );
         }
 
-
         mob.setTarget(targetLiving);
         mob.setAggressive(true);
 
         if (targetLiving instanceof net.minecraft.world.entity.player.Player player) {
             mob.setLastHurtByPlayer(player);
         }
-    }
 
-    @Override
-    public boolean isDurationEffectTick(int duration, int amplifier) {
         return true;
     }
 
-
+    @Override
+    public boolean shouldApplyEffectTickThisTick(int tickCount, int amplifier) {
+        return true;
+    }
 }

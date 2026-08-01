@@ -1,5 +1,7 @@
 package eu.kaufko.paladin_spells.effects;
 
+import eu.kaufko.paladin_spells.PaladinSpells;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -14,14 +16,9 @@ public class BulwarkEffect extends MobEffect {
         super(MobEffectCategory.BENEFICIAL, 0xFFD700);
         this.addAttributeModifier(
                 Attributes.ARMOR,
-                ARMOR_MODIFIER_UUID.toString(),
-                0,
-                AttributeModifier.Operation.MULTIPLY_TOTAL
+                ResourceLocation.fromNamespaceAndPath(PaladinSpells.MODID, "bulwark_armor"),
+                0.0,
+                AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL
         );
-    }
-
-    @Override
-    public double getAttributeModifierValue(int amplifier, AttributeModifier modifier) {
-        return amplifier / 1000.0;
     }
 }

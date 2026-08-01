@@ -63,7 +63,7 @@ public class BulwarkSpell extends AbstractSpell {
 
         int durationTicks = (int) (duration * 20);
 
-        entity.addEffect(new MobEffectInstance(PaladinEffectsRegistry.BULWARK_EFFECT.get(), durationTicks, amplifier));
+        entity.addEffect(new MobEffectInstance(PaladinEffectsRegistry.BULWARK_EFFECT, durationTicks, amplifier));
     }
 
     private float getDuration(int spellLevel, LivingEntity caster) {

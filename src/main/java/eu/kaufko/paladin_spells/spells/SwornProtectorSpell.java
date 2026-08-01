@@ -143,7 +143,7 @@ public class SwornProtectorSpell extends AbstractSpell {
         
         entity.addEffect(
                 new MobEffectInstance(
-                        PaladinEffectsRegistry.SWORN_PROTECTOR_EFFECT.get(),
+                        PaladinEffectsRegistry.SWORN_PROTECTOR_EFFECT,
                         durationTicks,
                         spellLevel - 1
                 )
