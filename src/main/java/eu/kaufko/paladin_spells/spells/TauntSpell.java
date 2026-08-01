@@ -91,7 +91,6 @@ public class TauntSpell extends AbstractSpell {
                         mob != entity);
 
 
-        int tauntedCount = 0;
         for (Mob mob : nearbyMobs) {
             if(mob instanceof Enemy) {
                 MobEffectInstance tauntEffect = new MobEffectInstance(
@@ -111,7 +110,6 @@ public class TauntSpell extends AbstractSpell {
                         0, 0.1, 0
                 );
 
-                tauntedCount++;
             }
         }
     }
