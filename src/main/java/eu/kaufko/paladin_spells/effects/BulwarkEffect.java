@@ -10,7 +10,6 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import java.util.UUID;
 
 public class BulwarkEffect extends MobEffect {
-    private static final UUID ARMOR_MODIFIER_UUID = UUID.fromString("b1c2d3e4-f5a6-7890-bcde-f12345678901");
 
     public BulwarkEffect() {
         super(MobEffectCategory.BENEFICIAL, 0xFFD700);
