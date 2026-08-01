@@ -1,3 +1,10 @@
+## [1.0.0] - 2026-08-1
+### Added
+- Ported to 1.21.1 NeoForge
+- Added icon for Bedrock Skin
+
+---
+
 ## [0.5] - 2026-07-27
 
 ### Fixed
