@@ -23,9 +23,10 @@ import java.util.List;
 import java.util.Optional;
 
 
+
 public class SwornProtectorSpell extends AbstractSpell {
 
-    private static final ResourceLocation SPELL_ID =
+    private final ResourceLocation SPELL_ID =
             ResourceLocation.fromNamespaceAndPath(
                     PaladinSpells.MODID,
                     "sworn_protector"
@@ -41,8 +42,7 @@ public class SwornProtectorSpell extends AbstractSpell {
         if(FMLEnvironment.dist.isClient() && redirectPercentage == -1f)
         {
             redirectPercentage = getRedirectPercentage(spellLevel, MAX_LEVEL, Minecraft.getInstance().player);
-        }
-
+        } // a bit sketchy but it should work
         return List.of(
                 Component.translatable(
                         "ui.paladin_spells.sworn_protector.redirect_percentage",
@@ -59,8 +59,15 @@ public class SwornProtectorSpell extends AbstractSpell {
         );
     }
 
+    private float getRange(int spellPower) {
+        return ( 10 + spellPower * 2) * 3;
+    }
 
-        public float getRedirectPercentage(int spellLevel, int maxSpellLevel, LivingEntity caster) {
+    private float getDuration(int spellLevel, LivingEntity caster) {
+        return 15 + 20 * getSpellPower(spellLevel, caster) / 100;
+    }
+
+    public float getRedirectPercentage(int spellLevel, int maxSpellLevel, LivingEntity caster) {
         float normalizedLevel = (spellLevel - 1f) / (maxSpellLevel - 1f);
 
         float scaledValue = (float) Math.pow(
@@ -74,14 +81,6 @@ public class SwornProtectorSpell extends AbstractSpell {
                 1.0f,
                 0.20f + scaledValue * 0.60f + armorBonus
         );
-    }
-
-    private float getRange(int spellPower) {
-        return ( 10 + spellPower * 2) * 3;
-    }
-
-    private float getDuration(int spellLevel, LivingEntity caster) {
-        return 5 + getSpellPower(spellLevel, caster) * 10;
     }
 
     public SwornProtectorSpell() {
@@ -122,23 +121,24 @@ public class SwornProtectorSpell extends AbstractSpell {
     @Override
     public void onCast(Level level, int spellLevel, LivingEntity entity, CastSource castSource, MagicData playerMagicData) {
         if (level.isClientSide) {
-            return;
-        }
 
-        int durationTicks = (int) (getDuration(spellLevel, entity) * 20);
-        float redirectPercentage = getRedirectPercentage(spellLevel, MAX_LEVEL, entity);
-        float range = getRange(spellLevel);
-        
-        entity.getPersistentData().putFloat("sworn_protector_redirect", redirectPercentage);
-        entity.getPersistentData().putFloat("sworn_protector_range", range);
-        
-        entity.addEffect(
-                new MobEffectInstance(
-                        PaladinEffectsRegistry.SWORN_PROTECTOR_EFFECT,
-                        durationTicks,
-                        spellLevel - 1
-                )
-        );
+
+            int durationTicks = (int) (getDuration(spellLevel, entity) * 20);
+            float redirectPercentage = getRedirectPercentage(spellLevel, MAX_LEVEL, entity);
+            float range = getRange(spellLevel);
+
+            entity.getPersistentData().putFloat("sworn_protector_redirect", redirectPercentage);
+            entity.getPersistentData().putFloat("sworn_protector_range", range);
+
+            entity.addEffect(
+                    new MobEffectInstance(
+                            PaladinEffectsRegistry.SWORN_PROTECTOR_EFFECT,
+                            durationTicks,
+                            spellLevel - 1
+                    )
+            );
+            super.onCast(level, spellLevel, entity, castSource, playerMagicData);
+        }
     }
 
     @Override
