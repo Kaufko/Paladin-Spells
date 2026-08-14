@@ -1,9 +1,9 @@
 {
   "spell.paladin_spells.taunt": "Taunt",
-  "spell.paladin_spells.bedrock_skin": "Bedrock Skin (WIP)",
+  "spell.paladin_spells.bedrock_skin": "Bedrock Skin",
   "spell.paladin_spells.bulwark": "Bulwark",
   "spell.paladin_spells.ram": "Ram",
-  "spell.paladin_spells.sworn_protector": "Sworn Protector (WIP)",
+  "spell.paladin_spells.sworn_protector": "Sworn Protector",
   "ui.paladin_spells.bulwark.multiplier": "%s %% Increased Armor",
 
   "death.attack.paladin_spells.redirect": "%1$s fell protecting their ally",
