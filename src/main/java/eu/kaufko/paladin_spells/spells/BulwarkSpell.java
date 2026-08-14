@@ -67,7 +67,7 @@ public class BulwarkSpell extends AbstractSpell {
     }
 
     private float getDuration(int spellLevel, LivingEntity caster) {
-        return Math.min(15 + 20 * getSpellPower(spellLevel, caster) / 100, 40);
+        return Math.min(5 + 15 * getSpellPower(spellLevel, caster) / 100, 35);
     }
 
     @Override
