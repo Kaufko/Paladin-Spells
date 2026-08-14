@@ -9,6 +9,7 @@ import io.redspace.ironsspellbooks.api.registry.SchoolRegistry;
 import io.redspace.ironsspellbooks.api.spells.*;
 import io.redspace.ironsspellbooks.api.util.AnimationHolder;
 import io.redspace.ironsspellbooks.api.util.Utils;
+import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
@@ -16,6 +17,7 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
+import net.neoforged.fml.loading.FMLEnvironment;
 
 import java.util.List;
 import java.util.Optional;
@@ -33,9 +35,13 @@ public class SwornProtectorSpell extends AbstractSpell {
 
     @Override
     public List<MutableComponent> getUniqueInfo(int spellLevel, LivingEntity caster) {
-        float range = getRange(spellLevel, caster);
+        float range = getRange(spellLevel);
         float duration = getDuration(spellLevel, caster);
-        float redirectPercentage = getRedirectPercentage(spellLevel, MAX_LEVEL, caster);
+        float redirectPercentage = caster == null ? -1f : getRedirectPercentage(spellLevel, MAX_LEVEL, caster);
+        if(FMLEnvironment.dist.isClient() && redirectPercentage == -1f)
+        {
+            redirectPercentage = getRedirectPercentage(spellLevel, MAX_LEVEL, Minecraft.getInstance().player);
+        }
 
         return List.of(
                 Component.translatable(
@@ -53,19 +59,16 @@ public class SwornProtectorSpell extends AbstractSpell {
         );
     }
 
-    public static float getRangeStatic(float spellPower) {
-        return 10 + spellPower * 2;
-    }
 
-    public static float getRedirectPercentageStatic(int spellLevel, int maxLevel, float armor, float spellPower) {
-        float normalizedLevel = (spellLevel - 1f) / (maxLevel - 1f);
+        public float getRedirectPercentage(int spellLevel, int maxSpellLevel, LivingEntity caster) {
+        float normalizedLevel = (spellLevel - 1f) / (maxSpellLevel - 1f);
 
         float scaledValue = (float) Math.pow(
                 normalizedLevel,
-                0.6f / (1 + 0.1f * spellPower)
+                0.6f / (1 + 0.1f * getSpellPower(spellLevel, caster))
         );
 
-        float armorBonus = 0.20f * armor / (armor + 100.0f);
+        float armorBonus = 0.20f * caster.getArmorValue() / (caster.getArmorValue() + 100.0f);
 
         return Math.min(
                 1.0f,
@@ -73,27 +76,18 @@ public class SwornProtectorSpell extends AbstractSpell {
         );
     }
 
-    private float getRange(int spellLevel, LivingEntity caster) {
-        return getRangeStatic(getSpellPower(spellLevel, caster)) * 3;
+    private float getRange(int spellPower) {
+        return ( 10 + spellPower * 2) * 3;
     }
 
     private float getDuration(int spellLevel, LivingEntity caster) {
         return 5 + getSpellPower(spellLevel, caster) * 10;
     }
 
-    public float getRedirectPercentage(int spellLevel, int maxSpellLevel, LivingEntity caster) {
-        return getRedirectPercentageStatic(
-                spellLevel,
-                maxSpellLevel,
-                caster.getArmorValue(),
-                getSpellPower(spellLevel, caster)
-        );
-    }
-
     public SwornProtectorSpell() {
         manaCostPerLevel = 15;
-        baseSpellPower = 0;
-        spellPowerPerLevel = 0;
+        baseSpellPower = 10;
+        spellPowerPerLevel = 5;
         castTime = 0;
         baseManaCost = 30;
     }
@@ -102,7 +96,7 @@ public class SwornProtectorSpell extends AbstractSpell {
             .setMinRarity(SpellRarity.RARE)
             .setSchoolResource(SchoolRegistry.HOLY_RESOURCE)
             .setMaxLevel(MAX_LEVEL)
-            .setCooldownSeconds(25)
+            .setCooldownSeconds(35)
             .build();
 
     @Override
@@ -133,7 +127,7 @@ public class SwornProtectorSpell extends AbstractSpell {
 
         int durationTicks = (int) (getDuration(spellLevel, entity) * 20);
         float redirectPercentage = getRedirectPercentage(spellLevel, MAX_LEVEL, entity);
-        float range = getRange(spellLevel, entity);
+        float range = getRange(spellLevel);
         
         entity.getPersistentData().putFloat("sworn_protector_redirect", redirectPercentage);
         entity.getPersistentData().putFloat("sworn_protector_range", range);
