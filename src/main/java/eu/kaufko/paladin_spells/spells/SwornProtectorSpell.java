@@ -19,7 +19,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.fml.loading.FMLEnvironment;
 
-import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Optional;
 
@@ -43,12 +42,10 @@ public class SwornProtectorSpell extends AbstractSpell {
         {
             redirectPercentage = getRedirectPercentage(spellLevel, MAX_LEVEL, Minecraft.getInstance().player);
         } // a bit sketchy but it should work
-
-        String redirectDisplay = Utils.stringTruncation(redirectPercentage * 100, 1);
         return List.of(
                 Component.translatable(
                         "ui.paladin_spells.sworn_protector.redirect_percentage",
-                        redirectDisplay
+                        Utils.stringTruncation(redirectPercentage * 100, 1)
                 ),
                 Component.translatable(
                         "ui.irons_spellbooks.radius",
