@@ -8,6 +8,7 @@
 ### Fixed
 - Fixed sworn protector icon name
 - Bulwark being too loud
+- Clicking on Sworn Protector in an Inscription Table exited out due to missing caster value
 
 ### Removed
 - Unnecessary logging
