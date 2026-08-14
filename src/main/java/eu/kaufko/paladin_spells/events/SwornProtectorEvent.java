@@ -23,9 +23,6 @@ public class SwornProtectorEvent {
 
     @SubscribeEvent
     public static void onLivingHurt(LivingHurtEvent event) {
-        PaladinSpells.LOGGER.info(
-                "in event"
-        );
         if (event.getEntity().level().isClientSide()) {
             return;
         }
