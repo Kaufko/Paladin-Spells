@@ -47,7 +47,7 @@ public class BulwarkSpell extends AbstractSpell {
             .setMinRarity(SpellRarity.RARE)
             .setSchoolResource(SchoolRegistry.HOLY_RESOURCE)
             .setMaxLevel(10)
-            .setCooldownSeconds(25)
+            .setCooldownSeconds(45)
             .build();
     
     @Override
@@ -67,7 +67,7 @@ public class BulwarkSpell extends AbstractSpell {
     }
 
     private float getDuration(int spellLevel, LivingEntity caster) {
-        return 15 + getSpellPower(spellLevel, caster);
+        return Math.min(15 + 20 * getSpellPower(spellLevel, caster) / 100, 40);
     }
 
     @Override
