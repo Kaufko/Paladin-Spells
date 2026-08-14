@@ -1,4 +1,22 @@
+## [1.1.0] - 2026-08-14
+
+### Changed
+- Duration scaling of Bulwark
+- Duration scaling of Sworn Protector
+- Sworn protector icon to look better
+
+### Fixed
+- Fixed sworn protector icon name
+- Bulwark being too loud
+- Clicking on Sworn Protector in an Inscription Table exited out due to missing caster value
+
+### Removed
+- Unnecessary logging
+
+---
+
 ## [1.0.0] - 2026-08-1
+
 ### Added
 - Ported to 1.21.1 NeoForge
 - Added icon for Bedrock Skin
