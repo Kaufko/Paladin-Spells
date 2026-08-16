@@ -1,3 +1,16 @@
+## [1.1.1] - 2026-08-14
+
+### Fixed
+- Fixed wrong duration for Sworn Protector on 1.21
+- Fixed wrong cooldown on Bulwark to 45s on 1.21
+- Server crashing due to loading a client only class
+- 
+### Changed
+- Removed WIP from 2 spells, since they are released
+- Nerfed Bulwark effect duration
+
+---
+
 ## [1.1.0] - 2026-08-14
 
 ### Changed
