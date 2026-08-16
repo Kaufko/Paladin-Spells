@@ -1,6 +1,7 @@
 package eu.kaufko.paladin_spells.spells;
 
 import eu.kaufko.paladin_spells.PaladinSpells;
+import eu.kaufko.paladin_spells.client.SwornProtectorClient;
 import eu.kaufko.paladin_spells.registry.PaladinEffectsRegistry;
 import eu.kaufko.paladin_spells.registry.PaladinSoundRegistry;
 import io.redspace.ironsspellbooks.api.config.DefaultConfig;
@@ -38,10 +39,11 @@ public class SwornProtectorSpell extends AbstractSpell {
         float range = getRange(spellLevel);
         float duration = getDuration(spellLevel, caster);
         float redirectPercentage = caster == null ? -1f : getRedirectPercentage(spellLevel, MAX_LEVEL, caster);
-        if(FMLEnvironment.dist.isClient() && redirectPercentage == -1f)
+        if(FMLEnvironment.dist.isClient())
         {
-            redirectPercentage = getRedirectPercentage(spellLevel, MAX_LEVEL, Minecraft.getInstance().player);
-        } // a bit sketchy but it should work
+            redirectPercentage = SwornProtectorClient.getRedirect(this, spellLevel);
+        }
+
         return List.of(
                 Component.translatable(
                         "ui.paladin_spells.sworn_protector.redirect_percentage",
