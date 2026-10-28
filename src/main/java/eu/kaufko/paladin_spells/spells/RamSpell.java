@@ -54,7 +54,10 @@ public class RamSpell extends AbstractSpell {
                 Component.translatable("ui.irons_spellbooks.damage",Utils.stringTruncation(damage, 1))
         );
     }
-
+    @Override
+    public SchoolType getSchoolType() {
+        return SchoolRegistry.HOLY.get();
+    }
     @Override
     public void onCast(Level level, int spellLevel, LivingEntity entity, CastSource castSource, MagicData playerMagicData) {
         entity.hasImpulse = true;

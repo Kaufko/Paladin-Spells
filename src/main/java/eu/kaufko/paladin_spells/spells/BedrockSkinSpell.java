@@ -51,6 +51,11 @@ public class BedrockSkinSpell extends AbstractSpell {
             .setCooldownSeconds(25)
             .build();
 
+
+    @Override
+    public SchoolType getSchoolType() {
+        return SchoolRegistry.HOLY.get();
+    }
     @Override
     public void onCast(Level level, int spellLevel, LivingEntity entity, CastSource castSource, MagicData playerMagicData) {
         if (level.isClientSide) { return; }

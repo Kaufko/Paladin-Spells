@@ -34,7 +34,10 @@ public class BulwarkSpell extends AbstractSpell {
                 Component.translatable("ui.irons_spellbooks.effect_length", Utils.stringTruncation(duration, 1))
         );
     }
-
+    @Override
+    public SchoolType getSchoolType() {
+        return SchoolRegistry.HOLY.get();
+    }
     public BulwarkSpell() {
         this.manaCostPerLevel = 10;
         this.baseSpellPower = 15;

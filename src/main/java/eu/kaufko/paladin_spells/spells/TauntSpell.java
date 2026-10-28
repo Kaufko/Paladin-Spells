@@ -64,7 +64,10 @@ public class TauntSpell extends AbstractSpell {
     public DefaultConfig getDefaultConfig() {
         return defaultConfig;
     }
-
+    @Override
+    public SchoolType getSchoolType() {
+        return SchoolRegistry.HOLY.get();
+    }
     @Override
     public CastType getCastType() {
         return CastType.INSTANT;

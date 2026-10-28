@@ -98,7 +98,10 @@ public class SwornProtectorSpell extends AbstractSpell {
             .setMaxLevel(MAX_LEVEL)
             .setCooldownSeconds(35)
             .build();
-
+    @Override
+    public SchoolType getSchoolType() {
+        return SchoolRegistry.HOLY.get();
+    }
     @Override
     public ResourceLocation getSpellResource() {
         return SPELL_ID;
