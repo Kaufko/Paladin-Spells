@@ -2,6 +2,7 @@ package eu.kaufko.paladin_spells.spells;
 
 import eu.kaufko.paladin_spells.PaladinSpells;
 import eu.kaufko.paladin_spells.capabilities.magic.ImpulseCastData;
+import eu.kaufko.paladin_spells.client.ClientHelper;
 import eu.kaufko.paladin_spells.registry.PaladinSoundRegistry;
 import io.redspace.ironsspellbooks.api.config.DefaultConfig;
 import io.redspace.ironsspellbooks.api.magic.MagicData;
@@ -18,6 +19,8 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.fml.loading.FMLEnvironment;
 
 import java.util.List;
 import java.util.Optional;
@@ -42,9 +45,11 @@ public class RamSpell extends AbstractSpell {
 
     @Override
     public List<MutableComponent> getUniqueInfo(int spellLevel, LivingEntity caster) {
-        float distance = getSpellPower(spellLevel, caster) / 3;
-        float damage = getRamDamage(spellLevel, caster);
-
+        if (caster == null && FMLEnvironment.dist == Dist.CLIENT) {
+            caster = ClientHelper.getLocalPlayer();
+        }
+        float damage =  getRamDamage(spellLevel, caster);
+        //float distance = getSpellPower(spellLevel, caster) / 3;
         return List.of(
                 Component.translatable("ui.irons_spellbooks.damage",Utils.stringTruncation(damage, 1))
         );
