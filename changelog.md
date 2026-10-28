@@ -1,10 +1,21 @@
+## [1.1.2] - 2026-10-28
+
+### Fixed
+- Fixed inscription table closing when viewing some spells
+
+### Changed
+- Changed bulwark icon
+- Changed sworn protector description
+
+---
+
 ## [1.1.1] - 2026-08-14
 
 ### Fixed
 - Fixed wrong duration for Sworn Protector on 1.21
 - Fixed wrong cooldown on Bulwark to 45s on 1.21
 - Server crashing due to loading a client only class
-- 
+-
 ### Changed
 - Removed WIP from 2 spells, since they are released
 - Nerfed Bulwark effect duration
