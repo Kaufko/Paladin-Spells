@@ -1,3 +1,14 @@
+## [1.1.2] - 2026-10-28
+
+### Fixed
+- Fixed inscription table closing when viewing Ram spell
+
+### Changed
+- Changed bulwark icon
+- Changed sworn protector description
+
+---
+
 ## [1.1.1] - 2026-08-14
 
 ### Fixed
