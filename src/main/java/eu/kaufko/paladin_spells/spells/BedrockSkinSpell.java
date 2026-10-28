@@ -1,6 +1,7 @@
 package eu.kaufko.paladin_spells.spells;
 
 import eu.kaufko.paladin_spells.PaladinSpells;
+import eu.kaufko.paladin_spells.client.ClientHelper;
 import eu.kaufko.paladin_spells.entity.spells.BedrockSkin.BedrockSkinEntity;
 import eu.kaufko.paladin_spells.registry.PaladinEffectsRegistry;
 import eu.kaufko.paladin_spells.registry.PaladinEntityRegistry;
@@ -13,22 +14,26 @@ import io.redspace.ironsspellbooks.api.util.Utils;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.fml.loading.FMLEnvironment;
 
 import java.util.List;
-import java.util.Optional;
+
 
 public class BedrockSkinSpell extends AbstractSpell {
     private final ResourceLocation spellId = ResourceLocation.fromNamespaceAndPath(PaladinSpells.MODID, "bedrock_skin"); //mark static?
-    private static final String DAMAGE_REDUCTION_KEY = "bedrock_skin_reduction"; //forgot if this has a use check
+    private static final String DAMAGE_REDUCTION_KEY = "bedrock_skin_reduction"; //forgot if this has a use, check
 
     @Override
     public List<MutableComponent> getUniqueInfo(int spellLevel, LivingEntity caster) {
+        if (caster == null && FMLEnvironment.dist == Dist.CLIENT) {
+            caster = ClientHelper.getLocalPlayer();
+        }
         float duration = getDuration(spellLevel, caster);
-        float reduction = getDamageReduction(spellLevel, 10, caster);
+        float reduction = caster != null ? getDamageReduction(spellLevel, 10, caster) : 0f;
 
         return List.of(
             Component.translatable("ui.paladin_spells.bedrock_skin.reduction_percentage", Utils.stringTruncation(reduction * 100, 1)),
