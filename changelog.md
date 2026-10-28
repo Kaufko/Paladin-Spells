@@ -1,7 +1,7 @@
 ## [1.1.2] - 2026-10-28
 
 ### Fixed
-- Fixed inscription table closing when viewing Ram spell
+- Fixed inscription table closing when viewing some spells
 
 ### Changed
 - Changed bulwark icon
