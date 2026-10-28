@@ -48,7 +48,7 @@ public class RamSpell extends AbstractSpell {
         if (caster == null && FMLEnvironment.dist == Dist.CLIENT) {
             caster = ClientHelper.getLocalPlayer();
         }
-        float damage =  getRamDamage(spellLevel, caster);
+        float damage = caster != null ? getRamDamage(spellLevel, caster) : 0f;
         //float distance = getSpellPower(spellLevel, caster) / 3;
         return List.of(
                 Component.translatable("ui.irons_spellbooks.damage",Utils.stringTruncation(damage, 1))
