@@ -1,6 +1,7 @@
 package eu.kaufko.paladin_spells.spells;
 
 import eu.kaufko.paladin_spells.PaladinSpells;
+import eu.kaufko.paladin_spells.client.ClientHelper;
 import eu.kaufko.paladin_spells.entity.spells.BedrockSkin.BedrockSkinEntity;
 import eu.kaufko.paladin_spells.registry.PaladinEffectsRegistry;
 import eu.kaufko.paladin_spells.registry.PaladinEntityRegistry;
@@ -16,6 +17,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.fml.loading.FMLEnvironment;
 
 import java.util.List;
 
@@ -25,8 +28,12 @@ public class BedrockSkinSpell extends AbstractSpell {
 
     @Override
     public List<MutableComponent> getUniqueInfo(int spellLevel, LivingEntity caster) {
+        if (caster == null && FMLEnvironment.dist == Dist.CLIENT) {
+            caster = ClientHelper.getLocalPlayer();
+        }
+
         float duration = getDuration(spellLevel, caster);
-        float reduction = getDamageReduction(spellLevel, 10, caster);
+        float reduction = caster != null ? getDamageReduction(spellLevel, 10, caster) : 0f;
 
         return List.of(
             Component.translatable("ui.paladin_spells.bedrock_skin.reduction_percentage", Utils.stringTruncation(reduction * 100, 1)),
