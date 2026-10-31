@@ -49,7 +49,6 @@ public class RamSpell extends AbstractSpell {
             caster = ClientHelper.getLocalPlayer();
         }
         float damage = caster != null ? getRamDamage(spellLevel, caster) : 0f;
-        //float distance = getSpellPower(spellLevel, caster) / 3;
         return List.of(
                 Component.translatable("ui.irons_spellbooks.damage",Utils.stringTruncation(damage, 1))
         );
@@ -98,7 +97,7 @@ public class RamSpell extends AbstractSpell {
 
         for (LivingEntity target : targets) {
             target.hurt(entity.damageSources().mobAttack(entity), damage);
-            target.knockback(1.5f, forward.x, forward.z);
+            target.knockback(1.5f, -forward.x, -forward.z);
         }
     }
 
@@ -112,9 +111,8 @@ public class RamSpell extends AbstractSpell {
 
     private float getRamDamage(int spellLevel, LivingEntity caster) {
         float armor = caster.getArmorValue();
-        float spellPower = getSpellPower(spellLevel, caster);
 
-        return (armor * 1.25f) + spellPower + (spellLevel * 2f);
+        return armor * 0.5f +  spellLevel;
     }
 
     @Override
