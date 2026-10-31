@@ -1,3 +1,11 @@
+## [1.1.3] - 2026-10-31
+
+## Changed
+- Changed Ram damage
+- Changed Ram knock direction
+
+---
+
 ## [1.1.2] - 2026-10-28
 
 ### Fixed
