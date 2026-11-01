@@ -15,7 +15,7 @@ A spell pack addon for **Iron's Spells 'n Spellbooks** focused on the Paladin ar
 |---------|---------|---------|
 | **Bulwark** | Defense | Increases your armor based on your current armor and spell power. |
 | **Taunt** | Utility | Forces nearby hostile mobs to target you instead of your allies. |
-| **Sworn Protector (WIP)** | Support | Redirects a percentage of damage taken by nearby players to yourself. |
+| **Sworn Protector** | Support | Redirects a percentage of damage taken by nearby players to yourself. |
 | **Bedrock Skin** | Defense | Roots you in place while granting powerful defensive bonuses. |
 | **Ram** | Damage | Charge through enemies with a short dash. |
 
@@ -33,5 +33,5 @@ Paladin Spells expands Iron's Spells 'n Spellbooks with abilities focused on:
 
 Found a bug or have a balance suggestion?
 
-- CurseForge / Modrinth comments
+- CurseForge
 - GitHub Issues / Discussions
