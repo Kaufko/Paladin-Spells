@@ -1,5 +1,10 @@
-## [1.1.4] - 2026-10-31
+## [1.1.4] - 2026-11-1
 
+## Changed
+- Fixed Ram sound starting later than spell cast
+- Changed Ram to only be castable whilst grounded
+
+---
 
 ## [1.1.3] - 2026-10-31
 
