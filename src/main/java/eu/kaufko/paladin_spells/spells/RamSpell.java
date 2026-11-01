@@ -10,9 +10,12 @@ import io.redspace.ironsspellbooks.api.registry.SchoolRegistry;
 import io.redspace.ironsspellbooks.api.spells.*;
 import io.redspace.ironsspellbooks.api.spells.ICastDataSerializable;
 import io.redspace.ironsspellbooks.api.util.Utils;
+import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.protocol.game.ClientboundSetActionBarTextPacket;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
@@ -53,6 +56,18 @@ public class RamSpell extends AbstractSpell {
         return List.of(
                 Component.translatable("ui.irons_spellbooks.damage",Utils.stringTruncation(damage, 1))
         );
+    }
+
+    @Override
+    public boolean checkPreCastConditions(Level level, int spellLevel, LivingEntity entity, MagicData playerMagicData) {
+        if (!entity.onGround()) {
+            if (entity instanceof ServerPlayer sp) {
+                sp.connection.send(new ClientboundSetActionBarTextPacket(
+                        Component.literal("You must be on the ground to cast this").withStyle(ChatFormatting.RED)));
+            }
+            return false;
+        }
+        return super.checkPreCastConditions(level, spellLevel, entity, playerMagicData);
     }
 
     @Override
@@ -98,6 +113,7 @@ public class RamSpell extends AbstractSpell {
             target.knockback(1.5f, -forward.x, -forward.z);
         }
     }
+
 
     public void onClientCast(Level level, int spellLevel, LivingEntity entity, ICastData castData) {
         if (castData instanceof ImpulseCastData bdcd) {
