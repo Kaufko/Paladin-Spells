@@ -1,3 +1,17 @@
+## [1.1.4] - 2026-11-1
+
+## Added
+- Added icons for all effects
+
+## Changed
+- Changed Ram to only be castable whilst grounded
+
+## Fixed
+- Fixed bedrock skin text from Redirect to Reduction
+- Fixed Ram sound starting later than spell cast
+
+---
+
 ## [1.1.3] - 2026-10-31
 
 ## Changed
