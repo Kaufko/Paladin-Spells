@@ -33,5 +33,5 @@ Paladin Spells expands Iron's Spells 'n Spellbooks with abilities focused on:
 
 Found a bug or have a balance suggestion?
 
-- CurseForge / Modrinth comments
+- CurseForge
 - GitHub Issues / Discussions
